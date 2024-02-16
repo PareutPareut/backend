@@ -7,6 +7,12 @@ export const Router = express.Router()
 
 Router.post(
     '/event/:eventId',
+    [
+        param('eventId').notEmpty().withMessage('eventId를 제공해야 합니다.'),
+        body('timeList')
+            .isArray({ min: 1 })
+            .withMessage('timeList는 최소한 하나의 항목을 가져야 합니다.'),
+    ],
     wrapper(async (req, res) => {
         const errors = validationResult(req)
 
@@ -15,12 +21,31 @@ Router.post(
         }
 
         try {
-            const eventName = req.body.eventName
+            const eventId = req.params.eventId
+            const timeList = req.body.timeList
 
-            // 데이터베이스에 이벤트 생성
-            await db.User.create({ eventName: eventName })
-            return res.status(200).send({
-                message: '이벤트 생성 성공. EventId: ' + eventId,
+            // 세션에서 현재 로그인된 사용자 정보 가져오기
+            const user = req.session.user
+
+            if (!user) {
+                return res.status(401).json({ message: '로그인이 필요합니다.' })
+            }
+
+            // 사용자의 기존 시간 정보 삭제
+            await db.EventTime.destroy({ where: { userId: user.id } })
+
+            // 새로운 시간 정보 추가
+            for (const { date, time } of timeList) {
+                await db.EventTime.create({
+                    eventId: eventId,
+                    userId: user.id,
+                    date: date,
+                    time: time,
+                })
+            }
+
+            return res.status(200).json({
+                message: '시간 정보 업데이트 및 추가 성공.',
             })
         } catch (err) {
             throw err

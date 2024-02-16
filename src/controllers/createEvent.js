@@ -1,46 +1,52 @@
 import express from 'express'
-import { wrapper } from '../utils/wrapper.js'
-import { db } from '../models/index.js'
-import { validate } from '../utils/validate.js'
-import { body } from 'express-validator'
+import { body, validationResult, param } from 'express-validator'
+import { wrapper } from '../utils/wrapper.js' // 실제 사용하는 래퍼 모듈 import
+import db from '../models/index.js'
 
-export const eventCreateRouter = express.Router()
+export const Router = express.Router()
 
-eventCreateRouter.post(
-    '/',
-    validate([
-        body('eventName')
-            .notEmpty()
-            .withMessage('eventName을 제공해야 합니다.'),
-    ]),
+Router.post(
+    '/event/:eventId',
+    [
+        param('eventId').notEmpty().withMessage('eventId를 제공해야 합니다.'),
+        body('timeList')
+            .isArray({ min: 1 })
+            .withMessage('timeList는 최소한 하나의 항목을 가져야 합니다.'),
+    ],
     wrapper(async (req, res) => {
+        const errors = validationResult(req)
+
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() })
+        }
+
         try {
-            const eventName = req.body.eventName
-            const dateList = ['2021-08-01', '2021-08-02', '2021-08-03']
+            const eventId = req.params.eventId
+            const timeList = req.body.timeList
 
-            const createdEvent = await db.event.create({ eventName: eventName })
+            // 세션에서 현재 로그인된 사용자 정보 가져오기
+            const user = req.session.user
 
-            if (createdEvent instanceof db.event) {
-                for (const date of dateList) {
-                    await db.eventDate.create({
-                        eventId: createdEvent.eventId,
-                        date: date,
-                    })
-                }
+            if (!user) {
+                return res.status(401).json({ message: '로그인이 필요합니다.' })
+            }
 
-                return res.status(200).send({
-                    message: '이벤트 생성 성공.',
-                    eventId: createdEvent.eventId,
-                })
-            } else if (createdEvent === null) {
-                return res.status(404).send({
-                    message: '이벤트 생성 실패',
-                })
-            } else {
-                return res.status(500).send({
-                    message: '서버 오류',
+            // 사용자의 기존 시간 정보 삭제
+            await db.EventTime.destroy({ where: { userId: user.id } })
+
+            // 새로운 시간 정보 추가
+            for (const { date, time } of timeList) {
+                await db.EventTime.create({
+                    eventId: eventId,
+                    userId: user.id,
+                    date: date,
+                    time: time,
                 })
             }
+
+            return res.status(200).json({
+                message: '시간 정보 업데이트 및 추가 성공.',
+            })
         } catch (err) {
             throw err
         }
