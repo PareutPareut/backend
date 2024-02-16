@@ -4,7 +4,8 @@ import morgan from 'morgan'
 import cors from 'cors';
 import { sequelizeLoader } from './src/loaders/sequelize.js'
 
-import { Router } from './src/controllers/signup.js'
+import { signUpRouter } from './src/controllers/signup.js'
+import { eventCreateRouter } from './src/controllers/createEvent.js'
 
 const app = express()
 
@@ -13,7 +14,9 @@ app.use(express.urlencoded({ extended: false }))
 
 app.use(cors());
 
-app.use('/', Router)
+app.use('/login', signUpRouter)
+app.use('/event', eventCreateRouter)
+
 app.use(morgan('dev'))
 
 await sequelizeLoader()
