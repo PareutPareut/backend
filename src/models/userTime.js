@@ -1,7 +1,7 @@
-export function user(Model, sequelize, DataTypes) {
-    class User extends Model {}
+export function userTime(Model, sequelize, DataTypes) {
+    class UserTime extends Model {}
 
-    User.init(
+    UserTime.init(
         {
             user_id: {
                 type: DataTypes.UUID,
@@ -9,21 +9,26 @@ export function user(Model, sequelize, DataTypes) {
                 primaryKey: true,
                 allowNull: false,
             },
-            event_id : {
+            user_event_id : {
                 type: DataTypes.UUID,
                 defaultValue: DataTypes.UUIDV4,
                 allowNull: false,
             },
-            password: {
-                type: DataTypes.STRING(512),
+            user_date : {
+                type: DataTypes.DATEONLY,
                 allowNull: false,
             },
+            user_time : {
+                type: DataTypes.INTEGER,
+                allowNull: false,
+            },
+
         },
         {
             sequelize, 
-            modelName: 'User',
+            modelName: 'UserTime', 
         }
     )
 
-    return User
+    return UserTime
 }
