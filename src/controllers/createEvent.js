@@ -12,9 +12,7 @@ eventCreateRouter.post(
         body('eventName')
             .notEmpty()
             .withMessage('eventName을 제공해야 합니다.'),
-        body('dataList')
-            .notEmpty()
-            .isArray()
+        body('dataList').notEmpty().isArray(),
     ]),
     wrapper(async (req, res) => {
         try {
@@ -24,18 +22,19 @@ eventCreateRouter.post(
             const createdEvent = await db.event.create({ eventName: eventName })
 
             if (createdEvent instanceof db.event) {
-
-                const list = [];
+                const list = []
                 for (const date of dataList) {
-                    list.push(date);
+                    list.push(date)
                 }
 
-                await Promise.all(list.map(async date => {
-                    await db.eventDate.create({
-                        eventId: createdEvent.eventId,
-                        date: date,
-                    });
-                }));
+                await Promise.all(
+                    list.map(async date => {
+                        await db.eventDate.create({
+                            eventId: createdEvent.eventId,
+                            date: date,
+                        })
+                    })
+                )
 
                 return res.status(200).send({
                     message: '이벤트 생성 성공.',
