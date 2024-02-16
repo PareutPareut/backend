@@ -21,28 +21,26 @@ eventCreateRouter.post(
 
             const createdEvent = await db.event.create({ eventName: eventName })
 
-            const sortedDates = dataList.map(dateString => new Date(dateString)).sort((a, b) => b - a);
+            const sortedDates = dataList
+                .map(dateString => ({
+                    original: dateString,
+                    date: new Date(dateString),
+                }))
+                .sort((a, b) => a.date - b.date)
+                .map(item => item.original)
 
-            // 정렬된 Date 객체를 다시 문자열로 변환하여 list에 넣음
-            const list = sortedDates.map(date => date.toISOString().split('T')[0]);
+            await Promise.all(
+                sortedDates.map(async date => {
+                    await db.eventDate.create({
+                        eventId: createdEvent.eventId,
+                        date: date,
+                    })
+                })
+            )
+
+            // console.log(sortedDates) 정렬된 객체 반환
 
             if (createdEvent instanceof db.event) {
-                const list = []
-                for (const date of dataList) {
-                    list.push(date)
-                }
-
-                await Promise.all(
-                    list.map(async date => {
-                        await db.eventDate.create({
-                            eventId: createdEvent.eventId,
-                            date: date,
-                        })
-                    })
-                )
-
-                console.log(list)
-
                 return res.status(200).send({
                     message: '이벤트 생성 성공.',
                     eventId: createdEvent.eventId,
