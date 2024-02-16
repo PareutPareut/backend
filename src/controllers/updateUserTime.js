@@ -11,7 +11,7 @@ updateEventRouter.post(
     validate([body('timeList').notEmpty().isArray()]),
     wrapper(async (req, res) => {
         try {
-            const eventId = req.params.eventId
+            const eventId = req.params.eventId.split(':')[1]
             const timeList = req.body.timeList // ['date, 'time']
 
             // 세션에서 현재 로그인된 사용자 정보 가져오기
