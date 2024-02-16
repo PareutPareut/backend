@@ -7,6 +7,7 @@ export function event(Model, sequelize, DataTypes) {
                 type: DataTypes.INTEGER,
                 autoIncrement: true,
                 primaryKey: true,
+                defaultValue: 0,
                 allowNull: false,
             },
             eventName: {
@@ -16,7 +17,7 @@ export function event(Model, sequelize, DataTypes) {
         },
         {
             sequelize,
-            modelName: 'Event',
+            modelName: 'event',
             timestamps: false,
         }
     )
