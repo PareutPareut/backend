@@ -26,7 +26,7 @@ app.use(
 
 app.use(cors())
 
-app.use('/login/:eventId', signUpRouter)
+app.use('/login', signUpRouter)
 app.use('/event', eventCreateRouter)
 app.use('/event/:eventId', updateEventRouter)
 
