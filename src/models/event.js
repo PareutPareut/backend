@@ -1,24 +1,25 @@
 export function event(Model, sequelize, DataTypes) {
-    class Event extends Model {}
+    class event extends Model {}
 
-    Event.init(
+    event.init(
         {
-            event_id : {
-                type: DataTypes.UUID,
-                defaultValue: DataTypes.UUIDV4,
+            eventId: {
+                type: DataTypes.INTEGER,
+                autoIncrement: true,
                 primaryKey: true,
                 allowNull: false,
             },
-            event_name: {
-                type: DataTypes.STRING(512),
+            eventName: {
+                type: DataTypes.STRING(32),
                 allowNull: false,
-            }
+            },
         },
         {
             sequelize,
             modelName: 'Event',
+            timestamps: false,
         }
     )
 
-    return Event
+    return event
 }

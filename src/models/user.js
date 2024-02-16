@@ -1,17 +1,20 @@
 export function user(Model, sequelize, DataTypes) {
-    class User extends Model {}
+    class user extends Model {}
 
-    User.init(
+    user.init(
         {
-            user_id: {
-                type: DataTypes.UUID,
-                defaultValue: DataTypes.UUIDV4,
+            userId: {
+                type: DataTypes.INTEGER,
+                autoIncrement: true,
                 primaryKey: true,
                 allowNull: false,
             },
-            event_id : {
-                type: DataTypes.UUID,
-                defaultValue: DataTypes.UUIDV4,
+            eventId: {
+                type: DataTypes.INTEGER,
+                allowNull: false,
+            },
+            userName: {
+                type: DataTypes.STRING(32),
                 allowNull: false,
             },
             password: {
@@ -20,10 +23,11 @@ export function user(Model, sequelize, DataTypes) {
             },
         },
         {
-            sequelize, 
+            sequelize,
             modelName: 'User',
+            timestamps: false,
         }
     )
 
-    return User
+    return user
 }

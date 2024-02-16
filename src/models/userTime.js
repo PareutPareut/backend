@@ -1,34 +1,31 @@
 export function userTime(Model, sequelize, DataTypes) {
-    class UserTime extends Model {}
+    class userTime extends Model {}
 
-    UserTime.init(
+    userTime.init(
         {
-            user_id: {
-                type: DataTypes.UUID,
-                defaultValue: DataTypes.UUIDV4,
-                primaryKey: true,
-                allowNull: false,
-            },
-            user_event_id : {
-                type: DataTypes.UUID,
-                defaultValue: DataTypes.UUIDV4,
-                allowNull: false,
-            },
-            user_date : {
-                type: DataTypes.DATEONLY,
-                allowNull: false,
-            },
-            user_time : {
+            userId: {
                 type: DataTypes.INTEGER,
                 allowNull: false,
             },
-
+            eventId: {
+                type: DataTypes.INTEGER,
+                allowNull: false,
+            },
+            date: {
+                type: DataTypes.DATEONLY,
+                allowNull: false,
+            },
+            time: {
+                type: DataTypes.INTEGER,
+                allowNull: false,
+            },
         },
         {
-            sequelize, 
-            modelName: 'UserTime', 
+            sequelize,
+            modelName: 'UserTime',
+            timestamps: false,
         }
     )
 
-    return UserTime
+    return userTime
 }

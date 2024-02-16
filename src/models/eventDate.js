@@ -1,24 +1,23 @@
 export function eventDate(Model, sequelize, DataTypes) {
-    class EventDate extends Model {}
+    class eventDate extends Model {}
 
-    EventDate.init(
+    eventDate.init(
         {
-            eventDate_id : {
-                type: DataTypes.UUID,
-                defaultValue: DataTypes.UUIDV4,
-                primaryKey: true,
+            eventId: {
+                type: DataTypes.INTEGER,
                 allowNull: false,
             },
-            eventDate_date: {
+            date: {
                 type: DataTypes.DATEONLY, // 시간 없이 날짜만
                 allowNull: false,
-            }
+            },
         },
         {
             sequelize,
             modelName: 'EventDate',
+            timestamps: false,
         }
     )
 
-    return EventDate
+    return eventDate
 }
