@@ -7,7 +7,7 @@ import { body } from 'express-validator'
 export const signUpRouter = express.Router()
 
 signUpRouter.post(
-    '/:eventId',
+    '/',
     validate([
         body('userName').notEmpty().withMessage('userName을 제공해야 합니다.'),
         body('password').notEmpty().withMessage('password를 제공해야 합니다.'),
