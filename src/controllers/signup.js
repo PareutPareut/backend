@@ -14,7 +14,7 @@ signUpRouter.post(
     ]),
     wrapper(async (req, res) => {
         try {
-            const eventId = req.params.eventId
+            const eventId = req.params.eventId.split(':')[1]
             const userName = req.body.userName
             const password = req.body.password
 
