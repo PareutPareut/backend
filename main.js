@@ -1,5 +1,6 @@
 import 'dotenv/config'
 import express from 'express'
+import session from 'express-session';
 import morgan from 'morgan'
 import cors from 'cors'
 import { sequelizeLoader } from './src/loaders/sequelize.js'
@@ -11,6 +12,15 @@ const app = express()
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
+
+
+// 세션 미들웨어 설정
+app.use(session({
+  secret: process.env.SECRET_KEY,
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: false }, 
+}))
 
 app.use(cors())
 
