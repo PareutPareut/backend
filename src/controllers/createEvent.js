@@ -16,17 +16,25 @@ eventCreateRouter.post(
     wrapper(async (req, res) => {
         try {
             const eventName = req.body.eventName
-            const dateList = ['2021-08-01', '2021-08-02', '2021-08-03']
+            const dataList = req.body.dataList
 
             const createdEvent = await db.event.create({ eventName: eventName })
 
             if (createdEvent instanceof db.event) {
-                for (const date of dateList) {
-                    await db.eventDate.create({
-                        eventId: createdEvent.eventId,
-                        date: date,
-                    })
+                const list = []
+                for (const date of dataList) {
+                    list.push(date)
                 }
+
+                await Promise.all(
+                    list.map(async date => {
+                        await db.eventDate.create({
+                            eventId: createdEvent.eventId,
+                            date: date,
+                        })
+                        console.log(date)
+                    })
+                )
 
                 return res.status(200).send({
                     message: '이벤트 생성 성공.',
