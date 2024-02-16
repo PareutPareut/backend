@@ -14,7 +14,7 @@ signUpRouter.post(
     ]),
     wrapper(async (req, res) => {
         try {
-            const eventId = req.params.eventId.split(':')[1]
+            const eventId = req.params.eventId
             const userName = req.body.userName
             const password = req.body.password
 
@@ -33,6 +33,11 @@ signUpRouter.post(
             if (existingUser) {
                 // 사용자가 존재하면 비밀번호 일치 여부 확인
                 if (existingUser.password === password) {
+                    req.session.user = {
+                        id: existingUser.userId,
+                        userName: existingUser.userName,
+                    }
+
                     return res.status(200).send({
                         message: '사용자 로그인 성공. Username: ' + userName,
                     })
@@ -45,11 +50,17 @@ signUpRouter.post(
                 }
             } else {
                 // 사용자가 존재하지 않으면 새로운 사용자 생성
-                await db.user.create({
+                const newUser = await db.user.create({
                     userName: userName,
                     password: password,
                     eventId: eventId,
                 })
+
+                req.session.user = {
+                    id: newUser.userId,
+                    userName: newUser.userName,
+                }
+
                 return res.status(200).send({
                     message: '사용자 가입 성공. Username: ' + userName,
                 })
