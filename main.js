@@ -3,7 +3,7 @@ import express from 'express'
 import morgan from 'morgan'
 import { sequelizeLoader } from './src/loaders/sequelize.js'
 
-import { Router } from '/home/by1094/pareut/src/routers/example.js'
+import { Router } from './src/controllers/signup.js'
 
 const app = express()
 
