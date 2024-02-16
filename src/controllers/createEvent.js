@@ -1,32 +1,43 @@
 import express from 'express'
-import { body, validationResult, param } from 'express-validator'
-import { wrapper } from '../utils/wrapper.js' // 실제 사용하는 래퍼 모듈 import
-import db from '../models/index.js'
+import { wrapper } from '../utils/wrapper.js'
+import { db } from '../models/index.js'
+import { validate } from '../utils/validate.js'
+import { body } from 'express-validator'
 
-export const Router = express.Router()
+export const eventCreateRouter = express.Router()
 
-Router.post(
-    '/event',
+eventCreateRouter.post(
+    '/',
     validate([
         body('eventName')
             .notEmpty()
             .withMessage('eventName을 제공해야 합니다.'),
     ]),
     wrapper(async (req, res) => {
-        const errors = validationResult(req)
-
-        if (!errors.isEmpty()) {
-            return res.status(400).json({ errors: errors.array() })
-        }
-
         try {
             const eventName = req.body.eventName
+            const dateList = ["2021-08-01", "2021-08-02", "2021-08-03"]
 
-            // 데이터베이스에 이벤트 생성
-            await db.User.create({ eventName: eventName })
-            return res.status(200).send({
-                message: '이벤트 생성 성공. EventId: ' + eventId,
-            })
+            const createdEvent = await db.event.create({ eventName: eventName })
+
+            if (createdEvent instanceof db.event) {
+
+                for (const date of dateList) {
+                    await db.eventDate.create({ eventId: createdEvent.eventId, date: date })
+                }
+
+                return res.status(200).send({
+                    message: '이벤트 생성 성공. EventId: ' + createdEvent.eventId
+                })
+            } else if (createdEvent === null) {
+                return res.status(404).send({
+                    message: '이벤트 생성 실패',
+                })
+            } else {
+                return res.status(500).send({
+                    message: '서버 오류',
+                })
+            }
         } catch (err) {
             throw err
         }
