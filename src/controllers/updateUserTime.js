@@ -1,6 +1,6 @@
 import express from 'express'
 import { body, validationResult, param } from 'express-validator'
-import { wrapper } from '../utils/wrapper.js' // 실제 사용하는 래퍼 모듈 import
+import { wrapper } from '../utils/wrapper.js'
 import db from '../models/index.js'
 
 export const Router = express.Router()
