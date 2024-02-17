@@ -70,7 +70,7 @@ eventRouter.post(
     validate([body('timeList').notEmpty().isArray()]),
     wrapper(async (req, res) => {
         try {
-            const eventId = req.params.eventId.split(':')[1]
+            const eventId = req.params.eventId
             const timeList = req.body.timeList // ['date, 'time']
 
             // 세션에서 현재 로그인된 사용자 정보 가져오기
@@ -81,26 +81,20 @@ eventRouter.post(
             }
 
             // 사용자의 기존 시간 정보 삭제
-            const deletedRowNum = await db.userTime.destroy({
+            await db.userTime.destroy({
                 where: { userId: user.id },
             })
 
-            if (deletedRowNum > 0) {
-                //deletedRowNum는 삭제된 열의 개수
-                await db.userTime.create({
-                    eventId: eventId,
-                    userId: user.id,
-                    date: timeList[0],
-                    time: timeList[1],
-                })
+            await db.userTime.create({
+                eventId: eventId,
+                userId: user.id,
+                date: timeList[0],
+                time: timeList[1],
+            })
 
-                console.log('timeList[0] : ', timeList[0])
-                return res.status(200).json({
-                    message: '시간 정보 업데이트 및 추가 성공.',
-                })
-            } else {
-                return res.status(500).json({ message: '삭제 실패' })
-            }
+            return res.status(200).json({
+                message: '시간 정보 업데이트 및 추가 성공.',
+            })
         } catch (err) {
             throw err
         }
@@ -112,9 +106,7 @@ eventRouter.get(
     '/:eventId',
     wrapper(async (req, res) => {
         try {
-            console.log('here')
             const eventId = req.params.eventId
-            console.log(eventId, 'eventId')
 
             // eventDate 테이블에서 날짜 정보 가져오기
             const eventDateList = await db.eventDate.findAll({
@@ -125,16 +117,14 @@ eventRouter.get(
 
             // userTime 테이블에서 사용자별, 날짜별로 그룹화하여 가져오기
             const userTimeList = await db.userTime.findAll({
-                where: { eventId: eventId }, //여기서 date를 해야하나?
+                where: { eventId: eventId },
                 attributes: ['userId', 'date', 'time'],
                 order: [['date', 'ASC']],
             })
 
             const userIds = userTimeList.map(user => user.userId)
-            //const userIds = userTimeList.map(userId => ({ userId : userId }))
 
-            console.log(123)
-            // 중복된 값을 제외한 모든 userName 가져오기 (뭘로? userId를 통해)
+            // userId를 통해 중복된 값을 제외한 모든 userName 가져오기
             const userIdName = await db.user.findAll({
                 where: { userId: userIds },
                 attributes: ['userId', 'userName'],
@@ -171,24 +161,47 @@ eventRouter.get(
                     .timeList.push({ date: date, time: time })
             })
 
+
             // 결과 전송
             const dateList = [
-                ...new Set(userTimeList.map(record => record.date)),
-            ]
+                ...new Set(eventDateList.map(record => record.date)),
+            ].map(date => date);
+
+            console.log(dateList);
             // 사용자 선택 '날짜 및 시간' 배열을 원하는 형식으로 변환
             const formattedUserList = userList.map(user => ({
                 userName: user?.userName,
                 timeList: user.timeList.map(timeRecord => ({
-                    date: timeRecord.date,
-                    time: timeRecord.time,
+                date: timeRecord.date,
+                time: timeRecord.time,
                 })),
-            }))
+            }));
 
             return res.status(200).json({
                 LoginName: req.session.user?.userName,
-                dateList: eventDateList,
+                dateList: dateList,
                 userList: formattedUserList,
-            })
+            });
+            // const dateList = [
+            //     ...new Set(userTimeList.map(record => record.date)),
+            // ]// 키의 값만 받아오도록 수정 필요 .. ㅠㅠ
+
+            // console.log(dateList)
+
+            // // 사용자 선택 '날짜 및 시간' 배열을 원하는 형식으로 변환
+            // const formattedUserList = userList.map(user => ({
+            //     userName: user?.userName,
+            //     timeList: user.timeList.map(timeRecord => ({
+            //         date: timeRecord.date,
+            //         time: timeRecord.time,
+            //     })),
+            // }))
+
+            // return res.status(200).json({
+            //     LoginName: req.session.user?.userName,
+            //     dateList: eventDateList,
+            //     userList: formattedUserList,
+            // })
         } catch (err) {
             throw err
         }
