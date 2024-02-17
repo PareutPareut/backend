@@ -8,7 +8,7 @@ export const eventRouter = express.Router()
 
 // 이벤트 생성
 eventRouter.post(
-    '/', 
+    '/',
     validate([
         body('eventName')
             .notEmpty()
@@ -23,7 +23,7 @@ eventRouter.post(
             const createdEvent = await db.event.create({ eventName: eventName })
 
             console.log(createdEvent.eventId)
-            
+
             const sortedDates = dataList
                 .map(dateString => ({
                     original: dateString,
@@ -47,7 +47,7 @@ eventRouter.post(
                 return res.status(200).send({
                     message: '이벤트 생성 성공.',
                     eventId: createdEvent.eventId,
-                    eventName: eventName
+                    eventName: eventName,
                 })
             } else if (createdEvent === null) {
                 return res.status(404).send({
@@ -112,15 +112,15 @@ eventRouter.get(
     '/:eventId',
     wrapper(async (req, res) => {
         try {
-            console.log('here');
-            const eventId = req.params.eventId;
-            console.log(eventId, 'eventId');
+            console.log('here')
+            const eventId = req.params.eventId
+            console.log(eventId, 'eventId')
 
             // eventDate 테이블에서 날짜 정보 가져오기
             const eventDateList = await db.eventDate.findAll({
                 where: { eventId: eventId },
                 attributes: ['date'],
-                order: [['date', 'ASC']]
+                order: [['date', 'ASC']],
             })
 
             // userTime 테이블에서 사용자별, 날짜별로 그룹화하여 가져오기
@@ -130,43 +130,46 @@ eventRouter.get(
                 order: [['date', 'ASC']],
             })
 
-            const userIds = userTimeList.map(user => user.userId);
+            const userIds = userTimeList.map(user => user.userId)
             //const userIds = userTimeList.map(userId => ({ userId : userId }))
 
             console.log(123)
             // 중복된 값을 제외한 모든 userName 가져오기 (뭘로? userId를 통해)
-            const userIdName = await db.user.findAll({ 
+            const userIdName = await db.user.findAll({
                 where: { userId: userIds },
-                attributes: ['userId','userName'],
+                attributes: ['userId', 'userName'],
                 group: ['userName'],
             })
 
-            let userList = [];
+            let userList = []
 
             userTimeList.forEach(record => {
                 const { userId, date, time } = record
 
-                const userName = (userId) => {
+                const userName = userId => {
                     // userIdName에 [{'userId','userName'}...
-                    const user = userIdName.find(user => user.userId === userId);
-                    return user ? user?.userName : null;
-                };
-            
+                    const user = userIdName.find(user => user.userId === userId)
+                    return user ? user?.userName : null
+                }
+
                 // 사용자가 이미 리스트에 존재하는지 확인
-                const userObj = userList.find(user => user?.userName === userName)
+                const userObj = userList.find(
+                    user => user?.userName === userName
+                )
 
                 // 존재하지 않으면 새로운 사용자 객체 생성
                 if (!userObj) {
                     userList.push({
                         userName: userName,
                         timeList: [],
-                    });
+                    })
                 }
 
                 // 해당 사용자의 날짜와 타임 정보 추가
-                userList.find(user => user?.userName === userName).timeList.push({ date: date, time: time });
-            });
-
+                userList
+                    .find(user => user?.userName === userName)
+                    .timeList.push({ date: date, time: time })
+            })
 
             // 결과 전송
             const dateList = [
@@ -179,13 +182,13 @@ eventRouter.get(
                     date: timeRecord.date,
                     time: timeRecord.time,
                 })),
-            }));
+            }))
 
             return res.status(200).json({
                 LoginName: req.session.user?.userName,
                 dateList: eventDateList,
                 userList: formattedUserList,
-            });
+            })
         } catch (err) {
             throw err
         }
