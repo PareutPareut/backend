@@ -6,8 +6,7 @@ import cors from 'cors'
 import { sequelizeLoader } from './src/loaders/sequelize.js'
 
 import { signUpRouter } from './src/controllers/signup.js'
-import { eventCreateRouter } from './src/controllers/createEvent.js'
-import { updateEventRouter } from './src/controllers/updateUserTime.js'
+import { eventRouter } from './src/controllers/event.js'
 
 const app = express()
 
@@ -27,8 +26,7 @@ app.use(
 app.use(cors())
 
 app.use('/login', signUpRouter)
-app.use('/event', eventCreateRouter)
-app.use('/event/:eventId', updateEventRouter)
+app.use('/event', eventRouter)
 
 app.use(morgan('dev'))
 
