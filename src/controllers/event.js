@@ -70,24 +70,31 @@ eventRouter.post(
     validate([body('timeList').notEmpty().isArray()]),
     wrapper(async (req, res) => {
         try {
-            const eventId = req.params.eventId
+            const eventId = req.params.eventId.split(':')[1];
             const timeList = req.body.timeList // ['date, 'time']
 
             // 세션에서 현재 로그인된 사용자 정보 가져오기
-            const user = req.session.user
+            const user = req.body.loginName
 
             if (!user) {
                 return res.status(401).json({ message: '로그인이 필요합니다.' })
             }
 
-            // 사용자의 기존 시간 정보 삭제
-            await db.userTime.destroy({
-                where: { userId: user.id },
+            const createdUser = await db.user.findOne({
+                where: { userName: user }
             })
+
+            console.log(createdUser)
+            // if (createdUser) {
+            // // 사용자의 기존 시간 정보 삭제
+            //     await db.userTime.destroy({
+            //         where: { userId: createdUser.id },
+            //     })
+            // }
 
             await db.userTime.create({
                 eventId: eventId,
-                userId: user.id,
+                userId: createdUser.userId,
                 date: timeList[0],
                 time: timeList[1],
             })
@@ -106,7 +113,7 @@ eventRouter.get(
     '/:eventId',
     wrapper(async (req, res) => {
         try {
-            const eventId = req.params.eventId
+            const eventId = req.params.eventId; // .split(':')[1];
 
             // eventDate 테이블에서 날짜 정보 가져오기
             const eventDateList = await db.eventDate.findAll({
@@ -170,15 +177,16 @@ eventRouter.get(
             console.log(dateList);
             // 사용자 선택 '날짜 및 시간' 배열을 원하는 형식으로 변환
             const formattedUserList = userList.map(user => ({
-                userName: user?.userName,
+                loginName: user?.userName,
                 timeList: user.timeList.map(timeRecord => ({
                 date: timeRecord.date,
                 time: timeRecord.time,
                 })),
             }));
 
+            
             return res.status(200).json({
-                LoginName: req.session.user?.userName,
+                loginName: req.session.user?.userName,
                 dateList: dateList,
                 userList: formattedUserList,
             });
