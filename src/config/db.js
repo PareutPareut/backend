@@ -1,6 +1,6 @@
 import 'dotenv/config'
 
-const config = {
+export const dbConfig = {
     database: process.env.DB_NAME || 'database',
     username: process.env.DB_USER || 'root',
     password: process.env.DB_PASSWORD || 'password',
@@ -10,4 +10,3 @@ const config = {
     },
 }
 
-export { config }
