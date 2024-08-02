@@ -1,5 +1,5 @@
 import "dotenv/config";
-import express from "express";
+import express, { Request, Response, NextFunction } from "express";
 import session from "express-session";
 import morgan from "morgan";
 import cors from "cors";
@@ -16,7 +16,7 @@ app.use(express.urlencoded({ extended: false }));
 // 세션 미들웨어 설정
 app.use(
   session({
-    secret: process.env.SECRET_KEY,
+    secret: process.env.SECRET_KEY!,
     resave: false,
     saveUninitialized: true,
     cookie: { secure: false },
@@ -32,9 +32,8 @@ app.use(morgan("dev"));
 
 await sequelizeLoader();
 
-app.use((err, req, res, next) => {
-  console.log(err);
-  res.status(500).send({ message: "서버 오류" });
+app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+  return res.status(500).send({ message: `서버 오류 발생 : ${err.message}` });
 });
 
 app.listen(process.env.SECRET_PORT, () => {

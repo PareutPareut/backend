@@ -1,70 +1,48 @@
-import express from "express";
-import { wrapper } from "../utils/wrapper.js";
-import { db } from "../models/index.js";
-import { validate } from "../utils/validate.js";
-import { body } from "express-validator";
-
-export const signUpRouter = express.Router();
+import { Request, Response, Router } from "express";
+import { validate } from "../middleware/validate.js";
+import { param, body } from "express-validator";
+import { UserDto } from "../interfaces/user.dto.js";
+import { SignUpService } from "../services/signup.js";
+import { ensureError } from "../error/ensureError.js";
+export const signUpRouter = Router();
 
 signUpRouter.post(
   "/:eventId",
   validate([
+    param("eventId").notEmpty().withMessage("eventId 제공해야 합니다."),
     body("userName").notEmpty().withMessage("userName을 제공해야 합니다."),
     body("password").notEmpty().withMessage("password를 제공해야 합니다."),
   ]),
-  wrapper(async (req, res) => {
+  async (req: Request, res: Response) => {
     try {
-      const eventId = req.params.eventId.split(":")[1];
-      const userName = req.body.userName;
-      const password = req.body.password;
+      const userDto: UserDto = {
+        eventId: req.params.eventId.split(":")[1],
+        userName: req.body.userName,
+        password: req.body.password,
+      };
+      const result = await SignUpService.signup(userDto);
 
-      console.log(eventId);
-
-      // 데이터베이스에서 사용자가 이미 존재하는지 확인
-      const existingUser = await db.user.findOne({
-        where: {
-          userName: userName,
-          eventId: eventId,
-        },
-      });
-
-      console.log(existingUser);
-
-      if (existingUser) {
-        // 사용자가 존재하면 비밀번호 일치 여부 확인
-        if (existingUser.password === password) {
-          req.session.user = {
-            id: existingUser.userId,
-            userName: existingUser.userName,
-          };
-
-          return res.status(200).send({
-            message: "사용자 로그인 성공. Username: " + userName,
-          });
-        } else {
-          return res.status(401).send({
-            message: userName + " 사용자의 비밀번호가 올바르지 않습니다.",
-          });
-        }
-      } else {
-        // 사용자가 존재하지 않으면 새로운 사용자 생성
-        const newUser = await db.user.create({
-          userName: userName,
-          password: password,
-          eventId: eventId,
-        });
-
+      if (result.result) {
+        // 세션에 사용자 정보 저장
         req.session.user = {
-          id: newUser.userId,
-          userName: newUser.userName,
+          id: result.sessionData?.id,
+          userName: result.sessionData?.userName,
         };
 
-        return res.status(200).send({
-          message: "사용자 가입 성공. Username: " + userName,
+        // 성공 응답 반환
+        return res.status(200).json({
+          message: result.message,
         });
       }
+
+      // 실패 시 처리 (result.result가 false일 때)
+      return res.status(500).json({
+        message: result.message,
+      });
     } catch (err) {
-      throw err;
+      const error = ensureError(err);
+      console.log(error.message);
+      return res.status(500).send({ result: false, message: error.message });
     }
-  })
+  }
 );
