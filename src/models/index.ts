@@ -1,26 +1,57 @@
 import { dbConfig } from "../config/db.js";
-import { Sequelize, DataTypes, Model } from "sequelize";
+import { Sequelize, DataTypes } from "sequelize";
+import { eventDates, EventDates } from "./eventDates";
+import { events, Events } from "./events";
+import { users, Users } from "./users.js";
+import { userTimes, UserTimes } from "./userTimes.js";
+export const sequelize = new Sequelize(dbConfig.database, dbConfig.username, dbConfig.password, {
+  host: dbConfig.host,
+  dialect: "mysql",
+});
 
-import { user } from "../models/user.js";
-import { userTime } from "./userTime.js";
-import { event } from "./event.js";
-import { eventDate } from "./eventDate.js";
+export const db = {
+  sequelize: sequelize,
+  user: users(sequelize, DataTypes),
+  event: events(sequelize, DataTypes),
+  eventDate: eventDates(sequelize, DataTypes),
+  userTime: userTimes(sequelize, DataTypes),
+};
 
-const db = {}; // 실제 데이터베이스가 이 db 객체와 연결됨
+db.event.hasMany(EventDates, {
+  sourceKey: "eventId",
+  foreignKey: "eventId",
+  as: "eventHasManyEventDates",
+});
+db.eventDate.belongsTo(Events, {
+  foreignKey: "eventId",
+});
 
-const sequelize = new Sequelize(
-  dbConfig.database,
-  dbConfig.username,
-  dbConfig.password,
-  dbConfig.options
-);
+db.event.hasMany(Users, {
+  sourceKey: "eventId",
+  foreignKey: "eventId",
+  as: "eventHasManyUsers",
+});
 
-db.sequelize = sequelize;
+db.user.belongsTo(Events, {
+  foreignKey: "eventId",
+});
 
-db.user = user(Model, sequelize, DataTypes);
-db.userTime = userTime(Model, sequelize, DataTypes);
+db.eventDate.hasMany(UserTimes, {
+  sourceKey: "date",
+  foreignKey: "date",
+  as: "eventDateHasManyUserTimes",
+});
+db.userTime.belongsTo(EventDates, {
+  foreignKey: "eventId",
+});
 
-db.event = event(Model, sequelize, DataTypes);
-db.eventDate = eventDate(Model, sequelize, DataTypes);
-
-export { db };
+/*
+db.user.hasMany(UserTimes, {
+  sourceKey: "userName",
+  foreignKey: "userName",
+  as: "userHasManyUserTimes",
+});
+db.userTime.belongsTo(Users, {
+  foreignKey: "userName",
+});
+*/
