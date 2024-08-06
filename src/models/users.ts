@@ -8,15 +8,8 @@ import {
   HasManyCreateAssociationMixin,
   Association,
 } from "sequelize";
-
 import { Events } from "./events";
-
-interface UsersAttributes {
-  userId: number;
-  eventId: number;
-  userName: string;
-  password: string;
-}
+import { UsersAttributes } from "../interfaces/sequelize";
 
 export class Users extends Model<UsersAttributes> {
   declare readonly userId: number;

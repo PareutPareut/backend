@@ -1,9 +1,5 @@
 import { Sequelize, Model } from "sequelize";
-
-interface EventsAttributes {
-  eventId: number;
-  eventName: string;
-}
+import { EventsAttributes } from "../interfaces/sequelize";
 
 export class Events extends Model<EventsAttributes> {
   declare readonly eventId: number;

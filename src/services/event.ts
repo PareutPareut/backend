@@ -1,6 +1,6 @@
 import { EventDto, EventTimeDto, EventIdDto } from "../interfaces/event.dto.js";
-import { db } from "../models/index.js";
 import { ensureError } from "../error/ensureError.js";
+import { db } from "../models/index.js";
 
 // 데이터베이스에서 사용자가 이미 존재하는지 확인
 export class EventService {
@@ -8,17 +8,18 @@ export class EventService {
     try {
       const createdEvent = await db.event.create({ eventName: eventDto.eventName });
 
-      console.log(createdEvent.eventId);
+      console.log("생성된 이벤트 ", createdEvent);
 
-      const sortedDates = dataList
+      const sortedDates = eventDto.dataList
         .map(dateString => ({
           original: dateString,
           date: new Date(dateString),
         }))
         .sort((a, b) => a.date - b.date)
         .map(item => item.original);
+      console.log("sortedDates된 이벤트 ", sortedDates);
 
-      await Promise.all(
+      const promised = await Promise.all(
         sortedDates.map(async date => {
           await db.eventDate.create({
             eventId: createdEvent.eventId,
@@ -27,7 +28,7 @@ export class EventService {
         })
       );
 
-      // console.log(sortedDates) 정렬된 객체 반환
+      console.log("promised", promised);
 
       if (createdEvent instanceof db.event) {
         return {
@@ -56,24 +57,28 @@ export class EventService {
 
   static async addEventTime(eventTimeDto: EventTimeDto) {
     try {
+      console.log(eventTimeDto);
       const createdUser = await db.user.findOne({
-        where: { userName: eventTimeDto.user },
+        where: { userName: eventTimeDto.userName },
       });
+      console.log("createdUser : ", createdUser);
 
       console.log(createdUser);
-      // if (createdUser) {
-      // // 사용자의 기존 시간 정보 삭제
-      //     await db.userTime.destroy({
-      //         where: { userId: createdUser.id },
-      //     })
-      // }
+      if (createdUser) {
+        //사용자의 기존 시간 정보 삭제
+        await db.userTime.destroy({
+          where: { eventId: Number(eventTimeDto.eventId), userName: eventTimeDto.userName },
+        });
+      }
 
       const result = await db.userTime.create({
-        eventId: eventTimeDto.eventId,
-        userId: createdUser.userId,
+        eventId: Number(eventTimeDto.eventId),
+        userName: eventTimeDto.userName,
         date: eventTimeDto.timeList[0],
         time: eventTimeDto.timeList[1],
       });
+
+      console.log("result : ", result);
 
       if (result) {
         return {
@@ -95,6 +100,14 @@ export class EventService {
 
   static async getEvent(eventIdDto: EventIdDto) {
     try {
+      //
+      /*
+       eventIdDto.eventId를 통해서  event 테이블에서 이벤트 이름 가져오기
+       eventIdDto.eventId를 통해서  eventDate 테이블에서 날짜 정보 가져오기
+      userTime테이블에서 각 날짜마다 사용자 id와 시간 가져오기
+
+       */
+
       // eventDate 테이블에서 날짜 정보 가져오기
       const eventDateList = await db.eventDate.findAll({
         where: { eventId: eventIdDto.eventId },
@@ -102,14 +115,18 @@ export class EventService {
         order: [["date", "ASC"]],
       });
 
+      console.log(" eventDate 테이블에서 날짜 정보 가져오기 :", eventDateList);
+
       // userTime 테이블에서 사용자별, 날짜별로 그룹화하여 가져오기
       const userTimeList = await db.userTime.findAll({
         where: { eventId: eventIdDto.eventId },
         attributes: ["userId", "date", "time"],
         order: [["date", "ASC"]],
       });
+      console.log("userTime 테이블에서 사용자별, 날짜별로 그룹화하여 가져오기 :", userTimeList);
 
       const userIds = userTimeList.map(user => user.userId);
+      console.log("userIds :", userIds);
 
       // userId를 통해 중복된 값을 제외한 모든 userName 가져오기
       const userIdName = await db.user.findAll({
@@ -117,6 +134,8 @@ export class EventService {
         attributes: ["userId", "userName"],
         group: ["userName"],
       });
+
+      console.log("userId를 통해 중복된 값을 제외한 모든 userName 가져오기 :", userIdName);
 
       const userList: Array<any> = [];
 
@@ -145,11 +164,12 @@ export class EventService {
           .find(user => user?.userName === userName)
           .timeList.push({ date: date, time: time });
       });
+      console.log("가공본 : ", userTimeList);
 
       // 결과 전송
       const dateList = [...new Set(eventDateList.map(record => record.date))].map(date => date);
 
-      console.log(dateList);
+      console.log("dateList 결과 전송", dateList);
       // 사용자 선택 '날짜 및 시간' 배열을 원하는 형식으로 변환
       const formattedUserList = userList.map(user => ({
         loginName: user?.userName,
@@ -158,6 +178,7 @@ export class EventService {
           time: timeRecord.time,
         })),
       }));
+      console.log("formattedUserList 결과 전송", formattedUserList);
 
       return {
         result: true,

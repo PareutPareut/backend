@@ -1,15 +1,6 @@
 import { Sequelize, Model, Association } from "sequelize";
-
 import { EventDates } from "./eventDates";
-
-interface UserTimesAttributes {
-  userTimeId?: number;
-  userName: string;
-
-  eventId: number;
-  date: string;
-  time: string;
-}
+import { UserTimesAttributes } from "../interfaces/sequelize";
 
 export class UserTimes extends Model<UserTimesAttributes> {
   declare readonly userTimeId: number;
