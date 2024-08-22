@@ -1,5 +1,5 @@
 export interface UserDto {
-  eventId: string;
+  eventId: number;
   userName: string;
   password: string;
 }

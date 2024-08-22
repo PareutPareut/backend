@@ -8,6 +8,6 @@ export interface EventIdDto {
 }
 
 export interface EventTimeDto extends EventIdDto {
-  user: string;
+  loginName: string;
   timeList: Array<any>;
 }
