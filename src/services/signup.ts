@@ -6,58 +6,40 @@ import { ensureError } from "../error/ensureError";
 export class SignUpService {
   static async signup(userDto: UserDto) {
     try {
-      const existingUser = await db.user.findOne({
+      const user = await db.user.findOrCreate({
+        // 사용자가 존재하지 않으면 새로운 사용자 생성
         where: {
           userName: userDto.userName,
           eventId: userDto.eventId,
+          password: userDto.password,
         },
       });
+      const userInfo = user[0].dataValues;
 
-      console.log(existingUser);
-
-      if (!existingUser) {
-        // 사용자가 존재하지 않으면 새로운 사용자 생성
-        const createdUser = await db.user.create({
-          userName: userDto.userName,
-          password: userDto.password,
-          eventId: userDto.eventId,
-        });
-
-        return createdUser
-          ? {
-              result: true,
-              sessionData: {
-                id: createdUser.userId,
-                userName: createdUser.userName,
-              },
-              message: "로그인 성공",
-            }
-          : {
-              result: false,
-              sessionData: null,
-              message: "사용자 생성 실패",
-            };
-      }
-
-      // 사용자가 존재하면 비밀번호 일치 여부 확인
-      return existingUser.password === userDto.password
+      return user
         ? {
             result: true,
             sessionData: {
-              id: existingUser.userId,
-              userName: existingUser.userName,
+              id: userInfo.userId,
+              userName: userInfo.userName,
             },
-            message: "로그인 성공",
+            message: "유저 로그인 성공", //isNewRecord ? "새로운 유저 로그인 성공" : "기존 유저 로그인 성공",
+            //isNewUser : isNewRecord
           }
         : {
             result: false,
             sessionData: null,
-            message: "사용자의 비밀번호가 올바르지 않습니다.",
+            message: "사용자 로그인 실패", //isNewRecord ? "사용자 생성 실패" : "올바르지 않은 비밀번호",
+            // isNewUser : isNewRecord
           };
     } catch (err) {
       const error = ensureError(err);
       console.log(error.message);
-      return { result: false, message: error.message };
+      return {
+        result: false,
+        sessionData: null,
+        message: error.message,
+      };
     }
   }
 }
