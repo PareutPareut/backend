@@ -23,11 +23,13 @@ eventRouter.post(
 
       return result.result
         ? res.status(200).json({
+            result: result.result,
             message: result.message,
             eventId: result.eventId,
             eventName: result.eventName,
           })
         : res.status(500).json({
+            result: result.result,
             message: result.message,
           });
     } catch (err) {
@@ -48,21 +50,18 @@ eventRouter.post(
   ]),
   async (req: Request, res: Response) => {
     try {
+      if (!req.session.user?.userName) {
+        return res.status(500).send({ result: false, message: "세션의 사용자 정보 확인 불가능" });
+      }
       const eventTimeDto: EventTimeDto = {
-        user: req.body.loginName, // 세션에서 현재 로그인된 사용자 정보 가져오기
+        loginName: req.session.user?.userName, // 세션에서 현재 로그인된 사용자 정보 가져오기
         eventId: req.params.eventId.split(":")[1],
-        timeList: req.body.timeList, // ['date, 'time']
+        timeList: req.body.timeList,
       };
 
-      const result = await EventService.addEventTime(eventTimeDto);
+      const result = await EventService.addUserEventTime(eventTimeDto);
 
-      return result.result
-        ? res.status(200).json({
-            message: result.message,
-          })
-        : res.status(500).json({
-            message: result.message,
-          });
+      return result.result ? res.status(200).send(result) : res.status(500).send(result);
     } catch (err) {
       const error = ensureError(err);
       console.log(error.message);
@@ -79,16 +78,15 @@ eventRouter.get("/:eventId", async (req: Request, res: Response) => {
     };
     const result = await EventService.getEvent(eventIdDto);
 
-    return result.result
-      ? res.status(200).json({
-          loginName: req.session.user?.userName,
-          dateList: result.dateList,
-          userList: result?.userList,
-          message: "이벤트의 저장된 시간 정보 조회 성공",
-        })
-      : res.status(500).json({
-          message: result.message,
-        });
+    if (result.result === true) {
+      return res.status(200).send(result);
+    }
+
+    if (result.message === "이벤트의 저장된 시간 정보가 존재하지 않음") {
+      return res.status(404).send(result);
+    }
+
+    return res.status(500).send(result);
   } catch (err) {
     const error = ensureError(err);
     console.log(error.message);
