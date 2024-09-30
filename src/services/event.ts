@@ -1,36 +1,8 @@
 import { EventDto, EventTimeDto, EventIdDto } from "../interfaces/event.dto.js";
 import { ensureError } from "../error/ensureError.js";
 import { db } from "../models/index.js";
+import { UserTime, SortedUserTime,  GetEventResponse} from "../interfaces/eventService.dto.js";
 
-interface TimeEntry {
-  date: string;
-  time: string[];
-}
-
-// 사용자 시간 정보
-interface UserTime {
-  userName: string;
-  date: Date;
-  time: number;
-}
-
-// 정렬된 사용자 시간 정보 구조
-interface SortedUserTime {
-  userName: string;
-  timeList: Array<{
-    date: Date;
-    time: number[];
-  }>;
-}
-
-// 반환 데이터 타입
-interface GetEventResponse {
-  result: boolean;
-  resultList?: SortedUserTime[];
-  dateList?: Date[];
-  userList?: string[];
-  message: string;
-}
 
 export class EventService {
   static async newEvent(eventDto: EventDto) {
