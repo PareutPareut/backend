@@ -3,7 +3,7 @@
   <h3>모두가 가능한 최고의 시간을 찾아보세요!</h3>
 
   <video style="width: 50%;" controls>
-    <source src="/home/by1094/pareut/misc/실행영상.mp4" type="video/mp4" />
+    <source src="./misc/실행영상.mp4" type="video/mp4" />
   </video>
 </div>
 
