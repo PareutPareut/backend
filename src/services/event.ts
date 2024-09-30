@@ -7,39 +7,35 @@ export class EventService {
     try {
       const createdEvent = await db.event.create({ eventName: eventDto.eventName });
 
-      const sortedDates = eventDto.dataList
-        .map(dateString => ({
-          original: dateString,
-          date: new Date(dateString),
-        }))
-        .sort((a, b) => a.date - b.date)
-        .map(item => item.original);
+      if (!createdEvent || !(createdEvent instanceof db.event)) {
+        return {
+          result: false,
+          message: "이벤트 생성 실패",
+        };
+      }
 
-      const promised = await Promise.all(
-        sortedDates.map(async date => {
-          await db.eventDate.create({
-            eventId: createdEvent.eventId,
+      const datesList = eventDto.dataList;
+
+      const createdEventDates = await Promise.all(
+        datesList.map(async date => {
+          return await db.eventDate.create({
+            eventId: createdEvent.eventId as number,
             date: date,
           });
         })
       );
 
-      if (createdEvent instanceof db.event) {
+      if (createdEventDates.length > 0 && createdEventDates[0] instanceof db.eventDate) {
         return {
           result: true,
-          message: "이벤트 생성 성공.",
+          message: "이벤트 및 이벤트 날짜 생성 성공.",
           eventId: createdEvent.eventId,
           eventName: eventDto.eventName,
-        };
-      } else if (createdEvent === null) {
-        return {
-          result: false,
-          message: "이벤트 생성 실패",
         };
       } else {
         return {
           result: false,
-          message: "서버 오류",
+          message: "이벤트 날짜 생성 오류",
         };
       }
     } catch (err) {
