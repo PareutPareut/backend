@@ -7,6 +7,31 @@ interface TimeEntry {
   time: string[];
 }
 
+// 사용자 시간 정보
+interface UserTime {
+  userName: string;
+  date: Date;
+  time: number;
+}
+
+// 정렬된 사용자 시간 정보 구조
+interface SortedUserTime {
+  userName: string;
+  timeList: Array<{
+    date: Date;
+    time: number[];
+  }>;
+}
+
+// 반환 데이터 타입
+interface GetEventResponse {
+  result: boolean;
+  resultList?: SortedUserTime[];
+  dateList?: Date[];
+  userList?: string[];
+  message: string;
+}
+
 export class EventService {
   static async newEvent(eventDto: EventDto) {
     try {
@@ -97,75 +122,50 @@ export class EventService {
     }
   }
 
-  static async getEvent(eventIdDto: EventIdDto) {
+  static async getEvent(eventIdDto: EventIdDto): Promise<GetEventResponse> {
     try {
-      // eventDate 테이블에서 날짜 정보 가져오기
-      const eventDateList = await db.eventDate.findAll({
+      const userTimes = await db.userTime.findAll({
         where: { eventId: eventIdDto.eventId },
-        attributes: ["date"],
-        order: [["date", "ASC"]],
+        order: [
+          ["userName", "ASC"],
+          ["date", "ASC"],
+          ["time", "ASC"],
+        ]
       });
 
-      // userTime 테이블에서 사용자별, 날짜별로 그룹화하여 가져오기
-      const userTimeList = await db.userTime.findAll({
-        where: { eventId: eventIdDto.eventId },
-        attributes: ["userId", "date", "time"],
-        order: [["date", "ASC"]],
-      });
-
-      const userIds = userTimeList.map(user => user.userId);
-
-      // userId를 통해 중복된 값을 제외한 모든 userName 가져오기
-      const userIdName = await db.user.findAll({
-        where: { userId: userIds },
-        attributes: ["userId", "userName"],
-        group: ["userName"],
-      });
-
-      const userList: Array<any> = [];
-
-      userTimeList.forEach(record => {
-        const { userId, date, time } = record;
-
-        const userName = userId => {
-          // userIdName에 [{'userId','userName'}...
-          const user = userIdName.find(user => user.userId === userId);
-          return user ? user?.userName : null;
+      if (!userTimes || userTimes.length === 0 || !(userTimes[0].dataValues instanceof UserTimes)) {
+        return {
+          result: false,
+          message: "이벤트의 저장된 시간 정보가 존재하지 않음",
         };
+      }
 
-        // 사용자가 이미 리스트에 존재하는지 확인
-        const userObj = userList.find(user => user?.userName === userName);
+      const convertedUserTimes: UserTime[] = userTimes.map(userTime => ({
+        ...userTime,
+        time: Number(userTime.time),
+        date: new Date(userTime.date),
+      }));
 
-        // 존재하지 않으면 새로운 사용자 객체 생성
-        if (!userObj) {
-          userList.push({
-            userName: userName,
-            timeList: [],
-          });
-        }
+      // 사용자 이름별로 시간을 정렬한 리스트로 변환
+      const sortedList: SortedUserTime[] = this._sortUsersTime(convertedUserTimes);
 
-        // 해당 사용자의 날짜와 타임 정보 추가
-        userList
-          .find(user => user?.userName === userName)
-          .timeList.push({ date: date, time: time });
+      // 중복을 방지하기 위해 Set 사용하여 유일한 날짜를 추출
+      const uniqueDates = new Set<Date>();
+      sortedList.forEach(user => {
+        user.timeList.forEach(entry => {
+          uniqueDates.add(entry.date);
+        });
       });
 
-      const dateList = [...new Set(eventDateList.map(record => record.date))].map(date => date);
+      const uniqueDatesList = Array.from(uniqueDates).sort();
 
-      // 사용자 선택 '날짜 및 시간' 배열을 원하는 형식으로 변환
-      const formattedUserList = userList.map(user => ({
-        loginName: user?.userName,
-        timeList: user.timeList.map(timeRecord => ({
-          date: timeRecord.date,
-          time: timeRecord.time,
-        })),
-      }));
+      const userNames = sortedList.map(user => user.userName);
 
       return {
         result: true,
-        //loginName: req.session.user?.userName,
-        dateList: dateList,
-        userList: formattedUserList,
+        resultList: sortedList, // 사용자 이름별로 묶인 데이터
+        dateList: uniqueDatesList, // 날짜 리스트
+        userList: userNames, // 사용자 이름 리스트
         message: "이벤트의 저장된 시간 정보 조회 성공",
       };
     } catch (err) {
@@ -173,5 +173,40 @@ export class EventService {
       console.log(error.message);
       return { result: false, message: error.message };
     }
+  }
+
+  // 사용자 이름별로 시간을 정렬한 리스트로 변환하는 함수
+  private static _sortUsersTime(userTimesArray: Array<UserTime>): SortedUserTime[] {
+    const usersTimeList: SortedUserTime[] = [];
+
+    userTimesArray.forEach(userTime => {
+      const { userName, date, time } = userTime;
+
+      let user = usersTimeList.find(u => u.userName === userName);
+      if (!user) {
+        // 기존 유저가 없다면 새로운 유저 추가
+        user = { userName, timeList: [] };
+        usersTimeList.push(user);
+      }
+
+      let dateEntry = user.timeList.find(d => d.date === date);
+      if (!dateEntry) {
+        // 해당 유저의 timeList에서 같은 날짜가 없으면 새로 추가
+        dateEntry = { date, time: [] };
+        user.timeList.push(dateEntry);
+      }
+
+      if (!dateEntry.time.includes(time)) {
+        dateEntry.time.push(time);
+      }
+    });
+
+    usersTimeList.forEach(user => {
+      user.timeList.forEach(dateEntry => {
+        dateEntry.time.sort((a, b) => a - b); // 시간을 오름차순으로 정렬
+      });
+    });
+
+    return usersTimeList;
   }
 }
