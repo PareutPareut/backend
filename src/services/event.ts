@@ -2,6 +2,11 @@ import { EventDto, EventTimeDto, EventIdDto } from "../interfaces/event.dto.js";
 import { ensureError } from "../error/ensureError.js";
 import { db } from "../models/index.js";
 
+interface TimeEntry {
+  date: string;
+  time: string[];
+}
+
 export class EventService {
   static async newEvent(eventDto: EventDto) {
     try {
@@ -58,24 +63,30 @@ export class EventService {
         });
       }
 
-      const result = await db.userTime.create({
-        eventId: Number(eventTimeDto.eventId),
-        userName: eventTimeDto.loginName,
-        date: eventTimeDto.timeList[0],
-        time: eventTimeDto.timeList[1],
-      });
+      // timeList를 반복하여 각 시간 항목을 개별적으로 삽입
+      for (const timeEntry of eventTimeDto.timeList) {
+        // 각 날짜와 시간을 새로운 항목으로 생성
+        for (const time of timeEntry.time) {
+          const result = await db.userTime.create({
+            eventId: Number(eventTimeDto.eventId),
+            userName: eventTimeDto.loginName,
+            date: timeEntry.date,
+            time: time,
+          });
 
-      if (result) {
-        return {
-          result: true,
-          message: "시간 정보 업데이트 및 추가 성공.",
-        };
-      } else {
-        return {
-          result: false,
-          message: "시간 정보 업데이트 및 추가 에러.",
-        };
+          if (!result) {
+            return {
+              result: false,
+              message: "시간 정보 업데이트 및 추가 에러",
+            };
+          }
+        }
       }
+
+      return {
+        result: true,
+        message: "시간 정보 업데이트 및 추가 성공",
+      };
     } catch (err) {
       const error = ensureError(err);
       console.log(error.message);
