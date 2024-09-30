@@ -45,22 +45,22 @@ export class EventService {
     }
   }
 
-  static async addEventTime(eventTimeDto: EventTimeDto) {
+  static async addUserEventTime(eventTimeDto: EventTimeDto) {
     try {
-      const createdUser = await db.user.findOne({
-        where: { userName: eventTimeDto.userName },
+      const existingUser = await db.user.findOne({
+        where: { userName: eventTimeDto.loginName },
       });
 
-      if (createdUser) {
-        //사용자의 기존 시간 정보 삭제
+      if (existingUser) {
+        // 특정 이벤트에 대한 사용자의 기존 시간 정보 삭제
         await db.userTime.destroy({
-          where: { eventId: Number(eventTimeDto.eventId), userName: eventTimeDto.userName },
+          where: { eventId: Number(eventTimeDto.eventId), userName: eventTimeDto.loginName },
         });
       }
 
       const result = await db.userTime.create({
         eventId: Number(eventTimeDto.eventId),
-        userName: eventTimeDto.userName,
+        userName: eventTimeDto.loginName,
         date: eventTimeDto.timeList[0],
         time: eventTimeDto.timeList[1],
       });
