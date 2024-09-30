@@ -9,15 +9,11 @@ import {
   Association,
 } from "sequelize";
 import { Events } from "./events";
-
-interface EventDatesAttributes {
-  eventId: number;
-  date: string;
-}
+import { EventDatesAttributes } from "../interfaces/sequelize";
 
 export class EventDates extends Model<EventDatesAttributes> {
   declare eventId: number;
-  declare date: string;
+  declare date: Date;
 
   declare readonly createdAt: Date;
   declare readonly updatedAt: Date;

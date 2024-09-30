@@ -1,5 +1,5 @@
 export interface EventsAttributes {
-  eventId: number;
+  eventId?: number;
   eventName: string;
 }
 
@@ -12,14 +12,13 @@ export interface UsersAttributes {
 
 export interface EventDatesAttributes {
   eventId: number;
-  date: string;
+  date: Date;
 }
 
 export interface UserTimesAttributes {
   userTimeId?: number;
   userName: string;
-
   eventId: number;
-  date: string;
+  date: Date;
   time: string;
 }
