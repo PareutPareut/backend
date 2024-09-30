@@ -2,6 +2,7 @@ import { EventDto, EventTimeDto, EventIdDto } from "../interfaces/event.dto.js";
 import { ensureError } from "../error/ensureError.js";
 import { db } from "../models/index.js";
 import { UserTime, SortedUserTime,  GetEventResponse} from "../interfaces/eventService.dto.js";
+import { UserTimes } from "../models/userTimes.js";
 
 
 export class EventService {
