@@ -57,30 +57,33 @@ export class EventService {
       });
 
       if (existingUser) {
-        // 특정 이벤트에 대한 사용자의 기존 시간 정보 삭제
+        // 특정 이벤트에 대한 사용자의 기존 시간 정보 일괄 삭제
         await db.userTime.destroy({
           where: { eventId: Number(eventTimeDto.eventId), userName: eventTimeDto.loginName },
         });
       }
 
-      // timeList를 반복하여 각 시간 항목을 개별적으로 삽입
+      // 삽입할 새로운 시간 정보 배열 생성
+      const timeEntriesToInsert = [];
+
       for (const timeEntry of eventTimeDto.timeList) {
-        // 각 날짜와 시간을 새로운 항목으로 생성
         for (const time of timeEntry.time) {
-          const result = await db.userTime.create({
+          timeEntriesToInsert.push({
             eventId: Number(eventTimeDto.eventId),
             userName: eventTimeDto.loginName,
             date: timeEntry.date,
             time: time,
           });
-
-          if (!result) {
-            return {
-              result: false,
-              message: "시간 정보 업데이트 및 추가 에러",
-            };
-          }
         }
+      }
+
+      const results = await db.userTime.bulkCreate(timeEntriesToInsert);
+
+      if (!results.length) {
+        return {
+          result: false,
+          message: "시간 정보 업데이트 및 추가 에러",
+        };
       }
 
       return {
