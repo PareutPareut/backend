@@ -2,10 +2,13 @@
   <img src="./misc/로고.png" alt="대표 이미지" width="200" />
   <h3>모두가 가능한 최고의 시간을 찾아보세요!</h3>
 
-  <video style="width: 100%;" controls>
-    <source src="./misc/실행영상.mp4" type="video/mp4" />
-  </video>
+  </br>
+  
+  <a href="https://youtu.be/J1aSaotSOsg">
+    <img src="./misc/잔디만들기.png" alt="실행영상" style="width: 30%;" />
+  </a>
 </div>
+
 
 </br>
 
@@ -76,9 +79,7 @@
 
 <a href="https://www.erdcloud.com/d/kPKoPRN5DfwFMEi4a" >👉 erd cloud에서 보기</a>
 
-<center>
-<img src="./misc/파릇파릇erd.png" style="width: 70%;" alt="JavaScript" />
-</center>
+<img src="./misc/파릇파릇erd.png" style="width: 40%; display: block; margin: 0 auto;" alt="erd" />
 
 </br>
 
