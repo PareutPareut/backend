@@ -23,7 +23,8 @@
     <ul>
       <li><a href="#1-이벤트-생성">1. 이벤트 생성</a></li>
       <li><a href="#2-로그인-및-회원가입">2. 로그인 및 회원가입</a></li>
-      <li><a href="#3-가능한-시간-등록-및-확인">3. 가능한 시간 등록 및 확인</a></li>
+      <li><a href="#3-가능한-시간-등록">3. 가능한 시간 등록 및 확인</a></li>
+      <li><a href="#4-등록된-시간-조회">4. 등록된 시간 조회</a></li>
     </ul>
   </li>
   <li><a href="#-팀원-소개">👨‍👨‍👦‍👦 팀원 소개</a></li>
@@ -79,7 +80,7 @@
 
 <a href="https://www.erdcloud.com/d/kPKoPRN5DfwFMEi4a" >👉 erd cloud에서 보기</a>
 
-<img src="./misc/파릇파릇erd.png" style="width: 40%; display: block; margin: 0 auto;" alt="erd" />
+<img src="./misc/파릇파릇erd.png" style="width: 60%; display: block; margin: 0 auto;" alt="erd" />
 
 </br>
 
@@ -91,33 +92,17 @@
       <img
         src="./misc/잔디만들기.png"
         alt="잔디만들기"
-        style="border: 3px solid lightgrey; width: 200px; height: 300px; max-width: 250px; max-height: 300px;"
+        style="border: 3px solid lightgrey; width: 300px; height: 450px;"
       /><br />
       <b>이벤트 생성</b>
     </td>
     <td style="text-align: center;">
       <img
         src="./misc/로그인.png"
-        alt="로그인"
-        style="border: 3px solid lightgrey; width: 200px; height: 300px; max-width: 250px; max-height: 300px;"
+        alt="로그인 및 회원가입"
+        style="border: 3px solid lightgrey; width: 300px; height: 450px;"
       /><br />
       <b>로그인</b>
-    </td>
-    <td style="text-align: center;">
-      <img
-        src="./misc/잔디등록.png"
-        alt="가능한 시간 등록"
-        style="border: 3px solid lightgrey; width: 200px; height: 300px; max-width: 250px; max-height: 300px;"
-      /><br />
-      <b>잔디등록</b>
-    </td>
-    <td style="text-align: center;">
-      <img
-        src="./misc/잔디보기.png"
-        alt="등록된 시간 보기"
-        style="border: 3px solid lightgrey; width: 200px; height: 300px; max-width: 250px; max-height: 300px;"
-      /><br />
-      <b>잔디보기</b>
     </td>
   </tr>
 </table>
@@ -131,38 +116,72 @@
 
 ### 2. 로그인 및 회원가입
 
-가능한 시간 등록을 위한 로그인 및 회원가입 기능을 제공합니다.
+생성된 이벤트에 가능한 시간 등록을 위한 로그인 및 회원가입 기능을 제공합니다.
 
 1. **회원가입**: 새로운 사용자는 간단한 회원가입 후 즉시 로그인이 가능합니다.
 2. **로그인**: 기존 사용자는 이메일과 비밀번호를 통해 로그인할 수 있습니다.
 
-### 3. 가능한 시간 등록 및 확인
+</br>
+</br>
 
-사용자는 자신이 가능한 시간을 등록하고, 다른 팀원들의 가능한 시간을 확인할 수 있습니다.
+<table align="center">
+  <tr>
+    <td style="text-align: center;">
+      <img
+        src="./misc/잔디등록.png"
+        alt="가능한 시간 등록하기"
+        style="border: 3px solid lightgrey; width: 300px; height: 450px;"
+      /><br />
+      <b>가능한 시간 등록</b>
+    </td>
+    <td style="text-align: center;">
+      <img
+        src="./misc/잔디보기.png"
+        alt="등록된 시간 보기"
+        style="border: 3px solid lightgrey; width: 300px; height: 450px;"
+      /><br />
+      <b>등록된 시간 조회</b>
+    </td>
+  </tr>
+</table>
+
+### 3. 가능한 시간 등록
+
+사용자는 해당 이벤트에 자신이 가능한 시간을 등록할 수 있습니다.
 
 - **가능 시간 등록**: 로그인 후 자신의 가능한 시간을 선택하여 등록할 수 있습니다.
+
+### 4. 등록된 시간 조회
+
+사용자는 해당 이벤트에 등록한 나의 시간 뿐만 아니라 다른 팀원들의 가능한 시간을 확인할 수 있습니다.
+
 - **등록된 시간 확인**: 팀원들의 전체 가능한 시간과 각각의 시간을 확인할 수 있습니다.
 
 </br>
 
-## 👨‍👨‍👦‍👦 팀원 소개
+<h2>👨‍👨‍👦‍👦 팀원 소개</h2>
 
-<table>
-  <tr height="130px">
+<table style="border-collapse: collapse; width: 80%;">
+  <tr style="background-color: #f2f2f2; height: 40px;">
+    <td colspan="2" align="center" style="border-bottom: 2px solid #ccc;"><b>프론트엔드</b></td>
+    <td colspan="2" align="center" style="border-bottom: 2px solid #ccc;"><b>백엔드</b></td>
+    <td align="center" style="border-bottom: 2px solid #ccc;"><b>디자인</b></td>
+  </tr>
+  <tr height="150px">
     <td align="center" width="130px">
-      <a href="https://github.com/hayamaster"><img src="https://avatars.githubusercontent.com/u/88622675?v=4" style="border-radius: 50%" /></a>
+      <a href="https://github.com/hayamaster"><img src="https://avatars.githubusercontent.com/u/88622675?v=4" style="border-radius: 50%; width: 100px; height: 100px; border: 2px solid lightgrey;" /></a>
     </td>
     <td align="center" width="130px">
-      <a href="https://github.com/andyhan-23"><img src="https://avatars.githubusercontent.com/u/98483125?v=4" style="border-radius: 50%" /></a>
+      <a href="https://github.com/andyhan-23"><img src="https://avatars.githubusercontent.com/u/98483125?v=4" style="border-radius: 50%; width: 100px; height: 100px; border: 2px solid lightgrey;" /></a>
     </td>
     <td align="center" width="130px">
-      <a href="https://github.com/nuyeo"><img src="https://avatars.githubusercontent.com/u/104813592?v=4" style="border-radius: 50%" /></a>
+      <a href="https://github.com/nuyeo"><img src="https://avatars.githubusercontent.com/u/104813592?v=4" style="border-radius: 50%; width: 100px; height: 100px; border: 2px solid lightgrey;" /></a>
     </td>
     <td align="center" width="130px">
-      <a href="https://github.com/xEzIxX"><img src="https://avatars.githubusercontent.com/u/128362224?v=4" style="border-radius: 50%" /></a>
+      <a href="https://github.com/xEzIxX"><img src="https://avatars.githubusercontent.com/u/128362224?v=4" style="border-radius: 50%; width: 100px; height: 100px; border: 2px solid lightgrey;" /></a>
     </td>
     <td align="center" width="130px">
-      <a><img src="" style="border-radius: 50%" /></a>
+      <a><img src="" style="border-radius: 50%; width: 100px; height: 100px; border: 2px solid lightgrey;" /></a>
     </td>
   </tr>
   <tr height="50px">
@@ -173,5 +192,6 @@
     <td align="center" width="130px"><a>김현아</a></td>
   </tr>
 </table>
+
 
 <br />
