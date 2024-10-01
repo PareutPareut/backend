@@ -15,7 +15,6 @@
   <li><a href="#✍🏻-프로젝트-개요">✍🏻 프로젝트 개요</a></li>
   <li><a href="#🛠️-기술-스택">🛠️ 기술 스택</a></li>
   <li><a href="#🗂️-erd">🗂️ ERD</a></li>
-  <li><a href="#🏛️-시스템-아키텍처">🏛️ 시스템 아키텍처</a></li>
   <li>
     <a href="#🚀-사용-방법">🚀 사용 방법</a>
     <ul>
@@ -48,7 +47,7 @@
     <td style="white-space: nowrap;"><b>프론트엔드</b></td>
     <td>
       <img src="https://img.shields.io/badge/React-61DAFB?style=flat&logo=react&logoColor=white" alt="React" />
-      <img src="https://img.shields.io/badge/TypeScript-007ACC?style=flat&logo=typescript&logoColor=white" alt="TypeScript" />
+      <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=flat&logo=javascript&logoColor=black" alt="JavaScript" />
     </td>
   </tr>
   <tr>
@@ -72,15 +71,11 @@
 
 </br>
 
-## 🏛️ 시스템 아키텍처
-
-시스템 아키텍처 이미지
-
-</br>
-
 ## 🗂️ ERD
 
-ERD 이미지
+<a href="https://www.erdcloud.com/d/kPKoPRN5DfwFMEi4a">👉 erd cloud에서 보기</a>
+
+<img src="./misc/파릇파릇erd.png" alt="JavaScript" />
 
 </br>
 
@@ -92,9 +87,7 @@ ERD 이미지
       <img
         src="./misc/이벤트생성.png"
         alt="이벤트 생성"
-        width="250"
-        height="300"
-        style="border: 3px solid lightgrey"
+        style="border: 3px solid lightgrey; width: 200px; height: 300px; max-width: 250px; max-height: 300px;"
       /><br />
       <b>이벤트 생성</b>
     </td>
@@ -102,9 +95,7 @@ ERD 이미지
       <img
         src="./misc/날짜선택.png"
         alt="날짜 선택"
-        width="250"
-        height="300"
-        style="border: 3px solid lightgrey"
+        style="border: 3px solid lightgrey; width: 200px; height: 300px; max-width: 250px; max-height: 300px;"
       /><br />
       <b>날짜 선택</b>
     </td>
@@ -112,9 +103,7 @@ ERD 이미지
       <img
         src="./misc/시간선택.png"
         alt="시간 선택"
-        width="250"
-        height="300"
-        style="border: 3px solid lightgrey"
+        style="border: 3px solid lightgrey; width: 200px; height: 300px; max-width: 250px; max-height: 300px;"
       /><br />
       <b>시간 선택</b>
     </td>
@@ -123,20 +112,23 @@ ERD 이미지
 
 ### 1. 이벤트 생성
 
-사용자가 이벤트를 생성할 수 있습니다.  
-1. **이벤트 이름 입력**: 간단한 모임 이름을 입력합니다.  
+사용자가 이벤트를 생성할 수 있습니다.
+
+1. **이벤트 이름 입력**: 간단한 모임 이름을 입력합니다.
 2. **날짜 범위 설정**: 팀원들이 선택 가능한 날짜 범위를 설정합니다.
 
 ### 2. 로그인 및 회원가입
 
-가능한 시간 등록을 위한 로그인 및 회원가입 기능을 제공합니다.  
-1. **회원가입**: 새로운 사용자는 간단한 회원가입 후 즉시 로그인이 가능합니다.  
+가능한 시간 등록을 위한 로그인 및 회원가입 기능을 제공합니다.
+
+1. **회원가입**: 새로운 사용자는 간단한 회원가입 후 즉시 로그인이 가능합니다.
 2. **로그인**: 기존 사용자는 이메일과 비밀번호를 통해 로그인할 수 있습니다.
 
 ### 3. 가능한 시간 등록 및 확인
 
-사용자는 자신이 가능한 시간을 등록하고, 다른 팀원들의 가능한 시간을 확인할 수 있습니다.  
-- **가능 시간 등록**: 로그인 후 자신의 가능한 시간을 선택하여 등록할 수 있습니다.  
+사용자는 자신이 가능한 시간을 등록하고, 다른 팀원들의 가능한 시간을 확인할 수 있습니다.
+
+- **가능 시간 등록**: 로그인 후 자신의 가능한 시간을 선택하여 등록할 수 있습니다.
 - **등록된 시간 확인**: 팀원들의 전체 가능한 시간과 각각의 시간을 확인할 수 있습니다.
 
 </br>
@@ -146,53 +138,27 @@ ERD 이미지
 <table>
   <tr height="130px">
     <td align="center" width="130px">
-      <a href="https://github.com/hayamaster"
-        ><img
-          src="https://avatars.githubusercontent.com/u/88622675?v=4"
-          style="border-radius: 50%"
-      /></a>
+      <a href="https://github.com/hayamaster"><img src="https://avatars.githubusercontent.com/u/88622675?v=4" style="border-radius: 50%" /></a>
     </td>
     <td align="center" width="130px">
-      <a href="https://github.com/andyhan-23"
-        ><img
-          src="https://avatars.githubusercontent.com/u/98483125?v=4"
-          style="border-radius: 50%"
-      /></a>
+      <a href="https://github.com/andyhan-23"><img src="https://avatars.githubusercontent.com/u/98483125?v=4" style="border-radius: 50%" /></a>
     </td>
     <td align="center" width="130px">
-      <a href="https://github.com/nuyeo"
-        ><img
-          src="https://avatars.githubusercontent.com/u/104813592?v=4"
-          style="border-radius: 50%"
-      /></a>
+      <a href="https://github.com/nuyeo"><img src="https://avatars.githubusercontent.com/u/104813592?v=4" style="border-radius: 50%" /></a>
     </td>
     <td align="center" width="130px">
-      <a href="https://github.com/xEzIxX"
-        ><img
-          src="https://avatars.githubusercontent.com/u/128362224?v=4"
-          style="border-radius: 50%"
-      /></a>
+      <a href="https://github.com/xEzIxX"><img src="https://avatars.githubusercontent.com/u/128362224?v=4" style="border-radius: 50%" /></a>
     </td>
     <td align="center" width="130px">
       <a><img src="" style="border-radius: 50%" /></a>
     </td>
   </tr>
   <tr height="50px">
-    <td align="center" width="130px">
-      <a href="https://github.com/hayamaster">김주하</a>
-    </td>
-    <td align="center" width="130px">
-      <a href="https://github.com/andyhan-23">한재혁</a>
-    </td>
-    <td align="center" width="130px">
-      <a href="https://github.com/nuyeo">구연우</a>
-    </td>
-    <td align="center" width="130px">
-      <a href="https://github.com/xEzIxX">정예지</a>
-    </td>
-    <td align="center" width="130px">
-      <a>김현아</a>
-    </td>
+    <td align="center" width="130px"><a href="https://github.com/hayamaster">김주하</a></td>
+    <td align="center" width="130px"><a href="https://github.com/andyhan-23">한재혁</a></td>
+    <td align="center" width="130px"><a href="https://github.com/nuyeo">구연우</a></td>
+    <td align="center" width="130px"><a href="https://github.com/xEzIxX">정예지</a></td>
+    <td align="center" width="130px"><a>김현아</a></td>
   </tr>
 </table>
 
