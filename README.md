@@ -86,15 +86,15 @@
 
 <table align="center">
   <tr>
-    <td>
+    <td style="text-align: center;">
       <img
         src="./misc/잔디만들기.png"
         alt="잔디만들기"
         style="border: 3px solid lightgrey; width: 200px; height: 300px; max-width: 250px; max-height: 300px;"
       /><br />
-      <b>잔디만들기</b>
+      <b>이벤트 생성</b>
     </td>
-    <td>
+    <td style="text-align: center;">
       <img
         src="./misc/로그인.png"
         alt="로그인"
@@ -102,18 +102,18 @@
       /><br />
       <b>로그인</b>
     </td>
-    <td>
+    <td style="text-align: center;">
       <img
         src="./misc/잔디등록.png"
-        alt="잔디등록"
+        alt="가능한 시간 등록"
         style="border: 3px solid lightgrey; width: 200px; height: 300px; max-width: 250px; max-height: 300px;"
       /><br />
       <b>잔디등록</b>
     </td>
-    <td>
+    <td style="text-align: center;">
       <img
         src="./misc/잔디보기.png"
-        alt="잔디보기"
+        alt="등록된 시간 보기"
         style="border: 3px solid lightgrey; width: 200px; height: 300px; max-width: 250px; max-height: 300px;"
       /><br />
       <b>잔디보기</b>
