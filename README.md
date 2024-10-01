@@ -163,9 +163,8 @@
 
 <table style="border-collapse: collapse; width: 80%;">
   <tr style="background-color: #f2f2f2; height: 40px;">
-    <td colspan="2" align="center" style="border-bottom: 2px solid #ccc;"><b>프론트엔드</b></td>
+    <td colspan="3" align="center" style="border-bottom: 2px solid #ccc;"><b>프론트엔드</b></td>
     <td colspan="2" align="center" style="border-bottom: 2px solid #ccc;"><b>백엔드</b></td>
-    <td align="center" style="border-bottom: 2px solid #ccc;"><b>디자인</b></td>
   </tr>
   <tr height="150px">
     <td align="center" width="130px">
@@ -175,21 +174,21 @@
       <a href="https://github.com/andyhan-23"><img src="https://avatars.githubusercontent.com/u/98483125?v=4" style="border-radius: 50%; width: 100px; height: 100px; border: 2px solid lightgrey;" /></a>
     </td>
     <td align="center" width="130px">
+      <a><img src="https://avatars.githubusercontent.com/u/68580694?v=4" style="border-radius: 50%; width: 100px; height: 100px; border: 2px solid lightgrey;" /></a>
+    </td>
+    <td align="center" width="130px">
       <a href="https://github.com/nuyeo"><img src="https://avatars.githubusercontent.com/u/104813592?v=4" style="border-radius: 50%; width: 100px; height: 100px; border: 2px solid lightgrey;" /></a>
     </td>
     <td align="center" width="130px">
       <a href="https://github.com/xEzIxX"><img src="https://avatars.githubusercontent.com/u/128362224?v=4" style="border-radius: 50%; width: 100px; height: 100px; border: 2px solid lightgrey;" /></a>
     </td>
-    <td align="center" width="130px">
-      <a><img src="" style="border-radius: 50%; width: 100px; height: 100px; border: 2px solid lightgrey;" /></a>
-    </td>
   </tr>
   <tr height="50px">
     <td align="center" width="130px"><a href="https://github.com/hayamaster">김주하</a></td>
     <td align="center" width="130px"><a href="https://github.com/andyhan-23">한재혁</a></td>
+    <td align="center" width="130px"><a href="https://github.com/wonhyuna">김현아</a></td>
     <td align="center" width="130px"><a href="https://github.com/nuyeo">구연우</a></td>
     <td align="center" width="130px"><a href="https://github.com/xEzIxX">정예지</a></td>
-    <td align="center" width="130px"><a>김현아</a></td>
   </tr>
 </table>
 
