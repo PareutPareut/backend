@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon --exec tsx src/main.ts --watch",
-    "lint": "eslint --fix '**/src/**/*.ts'"
+    "lint": "eslint --fix '**/src/**/*.ts'",
+    "format": "prettier --write '**/*.{ts,tsx,js,json,md}'"
   },
   "keywords": [],
   "author": "",
