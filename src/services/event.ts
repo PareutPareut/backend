@@ -1,9 +1,8 @@
-import { EventDto, EventTimeDto, EventIdDto } from "../interfaces/event.dto.js";
-import { ensureError } from "../error/ensureError.js";
-import { db } from "../models/index.js";
-import { UserTime, SortedUserTime,  GetEventResponse} from "../interfaces/eventService.dto.js";
-import { UserTimes } from "../models/userTimes.js";
-
+import { EventDto, EventTimeDto, EventIdDto } from "../interfaces/event.dto";
+import { ensureError } from "../error/ensureError";
+import { db } from "../models/index";
+import { UserTime, SortedUserTime, GetEventResponse } from "../interfaces/eventService.dto";
+import { UserTimes } from "../models/userTimes";
 
 export class EventService {
   static async newEvent(eventDto: EventDto) {
@@ -103,7 +102,7 @@ export class EventService {
           ["userName", "ASC"],
           ["date", "ASC"],
           ["time", "ASC"],
-        ]
+        ],
       });
 
       if (!userTimes || userTimes.length === 0 || !(userTimes[0].dataValues instanceof UserTimes)) {

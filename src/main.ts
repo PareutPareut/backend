@@ -3,10 +3,10 @@ import express, { Request, Response, NextFunction } from "express";
 import session from "express-session";
 import morgan from "morgan";
 import cors from "cors";
-import { sequelizeLoader } from "./loaders/sequelize.js";
+import { sequelizeLoader } from "./loaders/sequelize";
 
-import { signUpRouter } from "./controllers/signup.js";
-import { eventRouter } from "./controllers/event.js";
+import { signUpRouter } from "./controllers/signup";
+import { eventRouter } from "./controllers/event";
 
 const app = express();
 

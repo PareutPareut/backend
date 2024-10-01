@@ -1,9 +1,9 @@
-import { dbConfig } from "../config/db.js";
+import { dbConfig } from "../config/db";
 import { Sequelize, DataTypes } from "sequelize";
 import { eventDates, EventDates } from "./eventDates";
 import { events, Events } from "./events";
-import { users, Users } from "./users.js";
-import { userTimes, UserTimes } from "./userTimes.js";
+import { users, Users } from "./users";
+import { userTimes, UserTimes } from "./userTimes";
 export const sequelize = new Sequelize(dbConfig.database, dbConfig.username, dbConfig.password, {
   host: dbConfig.host,
   dialect: "mysql",

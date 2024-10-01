@@ -1,9 +1,9 @@
 import { Request, Response, Router } from "express";
-import { validate } from "../middleware/validate.js";
+import { validate } from "../middleware/validate";
 import { param, body } from "express-validator";
-import { UserDto } from "../interfaces/user.dto.js";
-import { ensureError } from "../error/ensureError.js";
-import { SignUpService } from "../services/signup.js";
+import { UserDto } from "../interfaces/user.dto";
+import { ensureError } from "../error/ensureError";
+import { SignUpService } from "../services/signup";
 
 export const signUpRouter = Router();
 

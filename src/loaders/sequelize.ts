@@ -1,4 +1,4 @@
-import { db } from "../models/index.js";
+import { db } from "../models/index";
 
 export const sequelizeLoader = async function () {
   try {

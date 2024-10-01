@@ -1,9 +1,9 @@
 import { Request, Response, Router } from "express";
-import { validate } from "../middleware/validate.js";
+import { validate } from "../middleware/validate";
 import { param, body } from "express-validator";
-import { EventDto, EventTimeDto, EventIdDto } from "../interfaces/event.dto.js";
-import { ensureError } from "../error/ensureError.js";
-import { EventService } from "../services/event.js";
+import { EventDto, EventTimeDto, EventIdDto } from "../interfaces/event.dto";
+import { ensureError } from "../error/ensureError";
+import { EventService } from "../services/event";
 export const eventRouter = Router();
 
 // 이벤트 생성

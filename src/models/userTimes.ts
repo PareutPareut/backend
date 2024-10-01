@@ -27,7 +27,6 @@ export function userTimes(sequelize: Sequelize, DataTypes: any) {
         primaryKey: true,
         allowNull: false,
       },
-
       userName: {
         type: DataTypes.STRING(32),
         allowNull: false,
