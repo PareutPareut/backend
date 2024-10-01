@@ -23,7 +23,7 @@
     <ul>
       <li><a href="#1-이벤트-생성">1. 이벤트 생성</a></li>
       <li><a href="#2-로그인-및-회원가입">2. 로그인 및 회원가입</a></li>
-      <li><a href="#3-가능한-시간-등록">3. 가능한 시간 등록 및 확인</a></li>
+      <li><a href="#3-가능한-시간-등록">3. 가능한 시간 등록</a></li>
       <li><a href="#4-등록된-시간-조회">4. 등록된 시간 조회</a></li>
     </ul>
   </li>
@@ -50,19 +50,19 @@
   <tr>
     <td style="white-space: nowrap;"><b>프론트엔드</b></td>
     <td>
+      <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=flat&logo=javascript&logoColor=black" alt="JavaScript" />
       <img src="https://img.shields.io/badge/React-61DAFB?style=flat&logo=react&logoColor=white" alt="React" />
       <img src="https://img.shields.io/badge/Vite-646CFF?style=flat&logo=vite&logoColor=white" alt="Vite" />
-      <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=flat&logo=javascript&logoColor=black" alt="JavaScript" />
     </td>
   </tr>
   <tr>
     <td><b>백엔드</b></td>
     <td>
+      <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=flat&logo=javascript&logoColor=black" alt="JavaScript" />
+      <img src="https://img.shields.io/badge/TypeScript-007ACC?style=flat&logo=typescript&logoColor=white" alt="TypeScript" />
       <img src="https://img.shields.io/badge/Node.js-43853D?style=flat&logo=node.js&logoColor=white" alt="Node.js" />
       <img src="https://img.shields.io/badge/Express.js-404D59?style=flat&logo=express" alt="Express.js" />
       <img src="https://img.shields.io/badge/Sequelize-3766AB?style=flat&logo=sequelize&logoColor=white" alt="Sequelize" />
-      <img src="https://img.shields.io/badge/TypeScript-007ACC?style=flat&logo=typescript&logoColor=white" alt="TypeScript" />
-      <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=flat&logo=javascript&logoColor=black" alt="JavaScript" />
     </td>
   </tr>
   <tr>
@@ -193,5 +193,5 @@
   </tr>
 </table>
 
-
-<br />
+</br>
+</br>
