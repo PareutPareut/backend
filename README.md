@@ -2,7 +2,7 @@
   <img src="./misc/로고.png" alt="대표 이미지" width="200" />
   <h3>모두가 가능한 최고의 시간을 찾아보세요!</h3>
 
-  <video style="width: 50%;" controls>
+  <video style="width: 100%;" controls>
     <source src="./misc/실행영상.mp4" type="video/mp4" />
   </video>
 </div>
@@ -12,18 +12,18 @@
 <h2>📄 목차</h2>
 <ul>
   <li><a href="#-목차">📄 목차</a></li>
-  <li><a href="#✍🏻-프로젝트-개요">✍🏻 프로젝트 개요</a></li>
-  <li><a href="#🛠️-기술-스택">🛠️ 기술 스택</a></li>
-  <li><a href="#🗂️-erd">🗂️ ERD</a></li>
+  <li><a href="#-프로젝트-개요">✍🏻 프로젝트 개요</a></li>
+  <li><a href="#-기술-스택">🛠 기술 스택</a></li>
+  <li><a href="#-erd">🗂 ERD</a></li>
   <li>
-    <a href="#🚀-사용-방법">🚀 사용 방법</a>
+    <a href="#-사용-방법">🚀 사용 방법</a>
     <ul>
       <li><a href="#1-이벤트-생성">1. 이벤트 생성</a></li>
       <li><a href="#2-로그인-및-회원가입">2. 로그인 및 회원가입</a></li>
       <li><a href="#3-가능한-시간-등록-및-확인">3. 가능한 시간 등록 및 확인</a></li>
     </ul>
   </li>
-  <li><a href="#👨‍👨‍👦‍👦-팀원-소개">👨‍👨‍👦‍👦 팀원 소개</a></li>
+  <li><a href="#-팀원-소개">👨‍👨‍👦‍👦 팀원 소개</a></li>
 </ul>
 
 </br>
@@ -36,7 +36,7 @@
 
 </br>
 
-## 🛠️ 기술 스택
+## 🛠 기술 스택
 
 <table>
   <tr>
@@ -47,6 +47,7 @@
     <td style="white-space: nowrap;"><b>프론트엔드</b></td>
     <td>
       <img src="https://img.shields.io/badge/React-61DAFB?style=flat&logo=react&logoColor=white" alt="React" />
+      <img src="https://img.shields.io/badge/Vite-646CFF?style=flat&logo=vite&logoColor=white" alt="Vite" />
       <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=flat&logo=javascript&logoColor=black" alt="JavaScript" />
     </td>
   </tr>
@@ -71,11 +72,13 @@
 
 </br>
 
-## 🗂️ ERD
+## 🗂 ERD
 
-<a href="https://www.erdcloud.com/d/kPKoPRN5DfwFMEi4a">👉 erd cloud에서 보기</a>
+<a href="https://www.erdcloud.com/d/kPKoPRN5DfwFMEi4a" >👉 erd cloud에서 보기</a>
 
-<img src="./misc/파릇파릇erd.png" alt="JavaScript" />
+<center>
+<img src="./misc/파릇파릇erd.png" style="width: 70%;" alt="JavaScript" />
+</center>
 
 </br>
 
@@ -85,27 +88,35 @@
   <tr>
     <td>
       <img
-        src="./misc/이벤트생성.png"
-        alt="이벤트 생성"
+        src="./misc/잔디만들기.png"
+        alt="잔디만들기"
         style="border: 3px solid lightgrey; width: 200px; height: 300px; max-width: 250px; max-height: 300px;"
       /><br />
-      <b>이벤트 생성</b>
+      <b>잔디만들기</b>
     </td>
     <td>
       <img
-        src="./misc/날짜선택.png"
-        alt="날짜 선택"
+        src="./misc/로그인.png"
+        alt="로그인"
         style="border: 3px solid lightgrey; width: 200px; height: 300px; max-width: 250px; max-height: 300px;"
       /><br />
-      <b>날짜 선택</b>
+      <b>로그인</b>
     </td>
     <td>
       <img
-        src="./misc/시간선택.png"
-        alt="시간 선택"
+        src="./misc/잔디등록.png"
+        alt="잔디등록"
         style="border: 3px solid lightgrey; width: 200px; height: 300px; max-width: 250px; max-height: 300px;"
       /><br />
-      <b>시간 선택</b>
+      <b>잔디등록</b>
+    </td>
+    <td>
+      <img
+        src="./misc/잔디보기.png"
+        alt="잔디보기"
+        style="border: 3px solid lightgrey; width: 200px; height: 300px; max-width: 250px; max-height: 300px;"
+      /><br />
+      <b>잔디보기</b>
     </td>
   </tr>
 </table>
