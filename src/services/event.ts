@@ -3,7 +3,7 @@ import { ensureError } from "../error/ensureError";
 import { db } from "../models/index";
 import { UserTime, SortedUserTime } from "../interfaces/eventService.dto";
 import { UserTimes } from "../models/userTimes";
-import { ApiResponse } from "../interfaces/apiResponse";
+import { ApiResponse } from "../interfaces/response/apiResponse";
 import { EventListsResponse, NewEventResponse } from "../interfaces/eventResponse";
 
 export class EventService {

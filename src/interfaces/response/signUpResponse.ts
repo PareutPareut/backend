@@ -1,4 +1,4 @@
-import { ApiResponse } from "./apiResponse";
+import { ApiResponse } from "./response/apiResponse";
 
 interface SessionData {
   id: number;

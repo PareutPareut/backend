@@ -1,4 +1,4 @@
-import { ApiResponse } from "./apiResponse";
+import { ApiResponse } from "./response/apiResponse";
 import { SortedUserTime } from "./eventService.dto";
 
 export interface EventListsResponse extends ApiResponse {

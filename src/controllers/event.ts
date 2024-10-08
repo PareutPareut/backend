@@ -4,7 +4,7 @@ import { param, body } from "express-validator";
 import { EventDto, EventTimeDto, EventIdDto } from "../interfaces/event.dto";
 import { ensureError } from "../error/ensureError";
 import { EventService } from "../services/event";
-import { ApiResponse } from "../interfaces/apiResponse";
+import { ApiResponse } from "../interfaces/response/apiResponse";
 import { EventListsResponse, NewEventResponse } from "../interfaces/eventResponse";
 import { isNewEventResponse } from "../typeGuard/isNewEventResponse";
 export const eventRouter = Router();

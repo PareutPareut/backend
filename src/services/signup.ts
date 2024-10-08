@@ -1,7 +1,7 @@
 import { UserDto } from "../interfaces/user.dto";
 import { db } from "../models/index";
 import { ensureError } from "../error/ensureError";
-import { ApiResponse } from "../interfaces/apiResponse";
+import { ApiResponse } from "../interfaces/response/apiResponse";
 import { SignUpResponse } from "../interfaces/signUpResponse";
 
 // 데이터베이스에서 사용자가 이미 존재하는지 확인
