@@ -1,11 +1,13 @@
 import { EventDto, EventTimeDto, EventIdDto } from "../interfaces/event.dto";
 import { ensureError } from "../error/ensureError";
 import { db } from "../models/index";
-import { UserTime, SortedUserTime, GetEventResponse } from "../interfaces/eventService.dto";
+import { UserTime, SortedUserTime } from "../interfaces/eventService.dto";
 import { UserTimes } from "../models/userTimes";
+import { ApiResponse } from "../interfaces/apiResponse";
+import { EventListsResponse, NewEventResponse } from "../interfaces/eventResponse";
 
 export class EventService {
-  static async newEvent(eventDto: EventDto) {
+  static async newEvent(eventDto: EventDto): Promise<ApiResponse | NewEventResponse> {
     try {
       const createdEvent = await db.event.create({ eventName: eventDto.eventName });
 
@@ -47,7 +49,7 @@ export class EventService {
     }
   }
 
-  static async addUserEventTime(eventTimeDto: EventTimeDto) {
+  static async addUserEventTime(eventTimeDto: EventTimeDto): Promise<ApiResponse> {
     try {
       const existingUser = await db.user.findOne({
         where: { userName: eventTimeDto.loginName },
@@ -94,7 +96,7 @@ export class EventService {
     }
   }
 
-  static async getEvent(eventIdDto: EventIdDto): Promise<GetEventResponse> {
+  static async getEvent(eventIdDto: EventIdDto): Promise<ApiResponse | EventListsResponse> {
     try {
       const userTimes = await db.userTime.findAll({
         where: { eventId: eventIdDto.eventId },

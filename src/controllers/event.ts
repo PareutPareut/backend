@@ -4,6 +4,9 @@ import { param, body } from "express-validator";
 import { EventDto, EventTimeDto, EventIdDto } from "../interfaces/event.dto";
 import { ensureError } from "../error/ensureError";
 import { EventService } from "../services/event";
+import { ApiResponse } from "../interfaces/apiResponse";
+import { EventListsResponse, NewEventResponse } from "../interfaces/eventResponse";
+import { isNewEventResponse } from "../typeGaurd/isNewEventResponse";
 export const eventRouter = Router();
 
 // 이벤트 생성
@@ -19,19 +22,11 @@ eventRouter.post(
         eventName: req.body.eventName,
         dataList: req.body.dataList,
       };
-      const result = await EventService.newEvent(eventDto);
+      const result: ApiResponse | NewEventResponse = await EventService.newEvent(eventDto);
 
-      return result.result
-        ? res.status(200).json({
-            result: result.result,
-            message: result.message,
-            eventId: result.eventId,
-            eventName: result.eventName,
-          })
-        : res.status(500).json({
-            result: result.result,
-            message: result.message,
-          });
+      return isNewEventResponse(result)
+        ? res.status(200).json(result)
+        : res.status(500).json(result);
     } catch (err) {
       const error = ensureError(err);
       console.log(error.message);
@@ -59,7 +54,7 @@ eventRouter.post(
         timeList: req.body.timeList,
       };
 
-      const result = await EventService.addUserEventTime(eventTimeDto);
+      const result: ApiResponse = await EventService.addUserEventTime(eventTimeDto);
 
       return result.result ? res.status(200).send(result) : res.status(500).send(result);
     } catch (err) {
@@ -76,17 +71,9 @@ eventRouter.get("/:eventId", async (req: Request, res: Response) => {
     const eventIdDto: EventIdDto = {
       eventId: req.params.eventId.split(":")[1],
     };
-    const result = await EventService.getEvent(eventIdDto);
+    const result: ApiResponse | EventListsResponse = await EventService.getEvent(eventIdDto);
 
-    if (result.result === true) {
-      return res.status(200).send(result);
-    }
-
-    if (result.message === "이벤트의 저장된 시간 정보가 존재하지 않음") {
-      return res.status(404).send(result);
-    }
-
-    return res.status(500).send(result);
+    return isNewEventResponse(result) ? res.status(200).json(result) : res.status(500).json(result);
   } catch (err) {
     const error = ensureError(err);
     console.log(error.message);
