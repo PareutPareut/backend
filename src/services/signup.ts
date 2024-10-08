@@ -1,10 +1,12 @@
 import { UserDto } from "../interfaces/user.dto";
 import { db } from "../models/index";
 import { ensureError } from "../error/ensureError";
+import { ApiResponse } from "../interfaces/apiResponse";
+import { SignUpResponse } from "../interfaces/signUpResponse";
 
 // 데이터베이스에서 사용자가 이미 존재하는지 확인
 export class SignUpService {
-  static async signup(userDto: UserDto) {
+  static async signup(userDto: UserDto): Promise<ApiResponse | SignUpResponse> {
     try {
       const user = await db.user.findOrCreate({
         // 사용자가 존재하지 않으면 새로운 사용자 생성
@@ -28,7 +30,6 @@ export class SignUpService {
           }
         : {
             result: false,
-            sessionData: null,
             message: "사용자 로그인 실패", //isNewRecord ? "사용자 생성 실패" : "올바르지 않은 비밀번호",
             // isNewUser : isNewRecord
           };
@@ -37,7 +38,6 @@ export class SignUpService {
       console.log(error.message);
       return {
         result: false,
-        sessionData: null,
         message: error.message,
       };
     }

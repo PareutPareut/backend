@@ -4,6 +4,7 @@ import { param, body } from "express-validator";
 import { UserDto } from "../interfaces/user.dto";
 import { ensureError } from "../error/ensureError";
 import { SignUpService } from "../services/signup";
+import { isSignUpResponse } from "../typeGaurd/isSignupResponse";
 
 export const signUpRouter = Router();
 
@@ -23,12 +24,9 @@ signUpRouter.post(
       };
       const result = await SignUpService.signup(userDto);
 
-      if (result.result === true) {
+      if (isSignUpResponse(result)) {
         // 세션에 사용자 정보 저장
-        req.session.user = {
-          id: result.sessionData?.id,
-          userName: result.sessionData?.userName,
-        };
+        req.session.user = result.sessionData;
         // 성공 응답 반환
         return res.status(200).send({
           result: result.result,
@@ -36,11 +34,7 @@ signUpRouter.post(
           // isNewUser : result.isNewUser
         });
       }
-      return res.status(500).send({
-        result: result.result,
-        message: result.message,
-        // isNewUser : result.isNewUser
-      });
+      return res.status(500).send(result);
     } catch (err) {
       const error = ensureError(err);
       console.log(error.message);
