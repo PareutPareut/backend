@@ -4,7 +4,7 @@ import { param, body } from "express-validator";
 import { UserDto } from "../interfaces/user.dto";
 import { ensureError } from "../error/ensureError";
 import { SignUpService } from "../services/signup";
-import { isSignUpResponse } from "../typeGaurd/isSignupResponse";
+import { isSignUpResponse } from "../typeGuard/isSignupResponse";
 
 export const signUpRouter = Router();
 

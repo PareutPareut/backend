@@ -6,7 +6,7 @@ import { ensureError } from "../error/ensureError";
 import { EventService } from "../services/event";
 import { ApiResponse } from "../interfaces/apiResponse";
 import { EventListsResponse, NewEventResponse } from "../interfaces/eventResponse";
-import { isNewEventResponse } from "../typeGaurd/isNewEventResponse";
+import { isNewEventResponse } from "../typeGuard/isNewEventResponse";
 export const eventRouter = Router();
 
 // 이벤트 생성
