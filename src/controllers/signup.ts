@@ -24,10 +24,10 @@ signUpRouter.post(
       };
       const result = await SignUpService.signup(userDto);
 
-      if (isSignUpResponse(result)) {
+      if (isSignUpResponse(result) && result.sessionData !== null) {
         // 세션에 사용자 정보 저장
         req.session.user = result.sessionData;
-        // 성공 응답 반환
+
         return res.status(200).send({
           result: result.result,
           message: result.message,
